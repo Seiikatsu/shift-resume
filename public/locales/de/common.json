@@ -1,0 +1,12 @@
+{
+	"actions": {
+		"save": "Speichern"
+	},
+	"navigation": {
+		"item": {
+			"profile": "Profil",
+			"resumes": "Lebensläufe",
+			"settings": "Einstellungen"
+		}
+	}
+}

@@ -1,0 +1,111 @@
+{
+	"profile": {
+		"form": {
+			"address": {
+				"city": {
+					"label": "Stadt"
+				},
+				"country": {
+					"label": "Land",
+					"placeholder": {
+						"no-value": "",
+						"search": ""
+					}
+				},
+				"postal-code": {
+					"label": "Postleitzahl"
+				},
+				"street": {
+					"label": "Strasse"
+				}
+			},
+			"birthday": {
+				"label": "Geburtztag"
+			},
+			"email": {
+				"label": "E-Mail"
+			},
+			"firstname": {
+				"label": "Vorname"
+			},
+			"lastname": {
+				"label": "Nachname"
+			},
+			"nationality": {
+				"label": "Nationalitaet",
+				"placeholder": {
+					"no-value": "",
+					"search": ""
+				}
+			},
+			"phone": {
+				"label": "Telefonnummer"
+			},
+			"title": {
+				"label": "Titel"
+			}
+		}
+	},
+	"resume-edit": {
+		"section": {
+			"personal-information": {
+				"field": {
+					"address": {
+						"city": {
+							"placeholder": "Stadt"
+						},
+						"country": {
+							"placeholder": ""
+						},
+						"postal-code": {
+							"placeholder": ""
+						},
+						"street": {
+							"label": "",
+							"placeholder": ""
+						}
+					},
+					"birthday": {
+						"label": ""
+					},
+					"email": {
+						"label": ""
+					},
+					"firstname": {
+						"label": "Vorname"
+					},
+					"lastname": {
+						"label": ""
+					},
+					"nationality": {
+						"label": ""
+					},
+					"phone": {
+						"label": ""
+					},
+					"profile": {
+						"label": "Profil"
+					},
+					"show-avatar": {
+						"label": "Profilbild anzeigen"
+					},
+					"title": {
+						"label": ""
+					},
+					"web-url": {
+						"label": "",
+						"placeholder": ""
+					}
+				},
+				"section-title": "Informationen"
+			}
+		},
+		"title": "Lebenslauf bearbeiten",
+		"notification": {
+			"resume-not-found": "The requested resume was not found"
+		}
+	},
+	"resumes": {
+		"create-resume": "Neuen Lebenslauf erstellen"
+	}
+}

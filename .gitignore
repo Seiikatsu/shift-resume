@@ -1,0 +1,12 @@
+node_modules
+
+/.cache
+/build
+.env
+
+.idea/
+
+vite.config.ts.timestamp-*
+
+# i18n editor
+*.babel

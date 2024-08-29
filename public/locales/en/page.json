@@ -1,0 +1,111 @@
+{
+	"profile": {
+		"form": {
+			"address": {
+				"city": {
+					"label": "City"
+				},
+				"country": {
+					"label": "Country",
+					"placeholder": {
+						"no-value": "Select a country",
+						"search": "Search country"
+					}
+				},
+				"postal-code": {
+					"label": "Postal Code"
+				},
+				"street": {
+					"label": "Street"
+				}
+			},
+			"birthday": {
+				"label": "Birthday"
+			},
+			"email": {
+				"label": "E-Mail"
+			},
+			"firstname": {
+				"label": "Firstname"
+			},
+			"lastname": {
+				"label": "Lastname"
+			},
+			"nationality": {
+				"label": "Nationality",
+				"placeholder": {
+					"no-value": "Select a nationality",
+					"search": "Search nationality"
+				}
+			},
+			"phone": {
+				"label": "Phone"
+			},
+			"title": {
+				"label": "Title"
+			}
+		}
+	},
+	"resume-edit": {
+		"section": {
+			"personal-information": {
+				"field": {
+					"address": {
+						"city": {
+							"placeholder": "City"
+						},
+						"country": {
+							"placeholder": "Country"
+						},
+						"postal-code": {
+							"placeholder": "Postal Code"
+						},
+						"street": {
+							"label": "Address",
+							"placeholder": "Street, number"
+						}
+					},
+					"birthday": {
+						"label": "Birthday"
+					},
+					"email": {
+						"label": "E-Mail"
+					},
+					"firstname": {
+						"label": "Firstname"
+					},
+					"lastname": {
+						"label": "Lastname"
+					},
+					"nationality": {
+						"label": "Nationality"
+					},
+					"phone": {
+						"label": "Phone"
+					},
+					"profile": {
+						"label": "Profile"
+					},
+					"show-avatar": {
+						"label": "Show Avatar"
+					},
+					"title": {
+						"label": "Title"
+					},
+					"web-url": {
+						"label": "Web",
+						"placeholder": "https://..."
+					}
+				},
+				"section-title": "Personal Information"
+			}
+		},
+		"title": "Edit resume",
+		"notification": {
+			"resume-not-found": "The requested resume was not found"
+		}
+	},
+	"resumes": {
+		"create-resume": "Create a new resume"
+	}
+}

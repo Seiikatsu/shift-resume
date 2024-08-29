@@ -1,0 +1,18 @@
+{
+	"actions": {
+		"save": "Save"
+	},
+	"navigation": {
+		"item": {
+			"profile": "Profile",
+			"resumes": "Resumes",
+			"settings": "Settings"
+		}
+	},
+	"messages": {
+		"form": {
+			"success": "That worked!",
+			"failed": "Something went wrong :("
+		}
+	}
+}
