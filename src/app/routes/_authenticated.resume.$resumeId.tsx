@@ -4,6 +4,7 @@ import {IconChevronDown, IconUser} from '@tabler/icons-react';
 import {FC, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import {z} from 'zod';
+import {cn} from '~/common/utils';
 import {Label} from '~/components/label';
 import {Avatar, AvatarFallback} from '~/components/shadcn/avatar';
 import {Checkbox} from '~/components/shadcn/checkbox';
@@ -69,79 +70,87 @@ export default function EditResumePage() {
       autoSaveId={`resume-${resume.id}`}
       direction="horizontal"
     >
-      <ResizablePanel className="pr-4 lg:pr-8">
+      <ResizablePanel className="flex flex-col gap-4">
         <Typography tag="h1" messageId="resume-edit.title"/>
-        <Collapsible className="w-full border border-neutral-800 rounded-md">
-          <CollapsibleTrigger
-            className="w-full p-4 flex items-center gap-2 group">
-            <IconUser size={32}/>
-            <Typography className="flex-1" tag="h2" messageId="resume-edit.section.personal-information.section-title"/>
-            <div
-              className="transition-opacity duration-300 opacity-0 group-data-[state=open]:opacity-100">
-              <IconChevronDown
-                className="stroke-neutral-400 group-data-[state=open]:rotate-180 transition-transform duration-300"
-                size={32}/>
-            </div>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="w-full p-4 flex flex-col">
-            <div className="flex flex-col gap-4">
-              <div className="grid grid-cols-[120px_1fr_1fr] grid-rows-3 gap-4">
-                <div className="flex flex-col gap-2 row-span-3">
-                  <Avatar className="w-[110px] h-[110px]">
-                    <AvatarFallback>MP</AvatarFallback>
-                  </Avatar>
-                  <div className="flex justify-center items-center gap-2">
-                    <Checkbox id="showAvatar"/>
-                    <Label htmlFor="showAvatar"
-                           messageId="resume-edit.section.personal-information.field.show-avatar.label">
-                    </Label>
+        <div className="overflow-auto scroller h-full">
+          <div className="pr-4 lg:pr-8">
+            <Collapsible className="w-full border border-secondary rounded-md">
+              <CollapsibleTrigger
+                className="w-full p-4 flex items-center gap-2 group">
+                <IconUser size={32}/>
+                <Typography className="flex-1" tag="h2"
+                            messageId="resume-edit.section.personal-information.section-title"/>
+                <div
+                  className="transition-opacity duration-300 opacity-0 group-data-[state=open]:opacity-100">
+                  <IconChevronDown
+                    className="stroke-neutral-400 group-data-[state=open]:rotate-180 transition-transform duration-300"
+                    size={32}/>
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent
+                className={cn('outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95')}>
+                <div className="flex flex-col gap-4 p-4">
+                  <div className="grid grid-cols-[120px_1fr_1fr] grid-rows-3 gap-4">
+                    <div className="flex flex-col gap-2 row-span-3">
+                      <Avatar className="w-[110px] h-[110px]">
+                        <AvatarFallback>MP</AvatarFallback>
+                      </Avatar>
+                      <div className="flex justify-center items-center gap-2">
+                        <Checkbox id="showAvatar"/>
+                        <Label htmlFor="showAvatar"
+                               messageId="resume-edit.section.personal-information.field.show-avatar.label">
+                        </Label>
+                      </div>
+                    </div>
+                    <InputWithLabel name="title" label="resume-edit.section.personal-information.field.title.label"/>
+                    <div/>
+                    <InputWithLabel name="firstname"
+                                    label="resume-edit.section.personal-information.field.firstname.label"/>
+                    <InputWithLabel name="lastname"
+                                    label="resume-edit.section.personal-information.field.lastname.label"/>
+                    <InputWithLabel name="phone" label="resume-edit.section.personal-information.field.phone.label"/>
+                    <InputWithLabel name="email" label="resume-edit.section.personal-information.field.email.label"/>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <InputWithLabel name="birthday"
+                                    label="resume-edit.section.personal-information.field.birthday.label"/>
+                    <InputWithLabel name="nationality"
+                                    label="resume-edit.section.personal-information.field.nationality.label"/>
+                  </div>
+
+                  <div className="grid grid-cols-2 grid-rows-1 gap-2 items-end">
+                    <InputWithLabel name="address.street"
+                                    label="resume-edit.section.personal-information.field.address.street.label"
+                                    placeholder="resume-edit.section.personal-information.field.address.street.placeholder"/>
+                    <InputWithLabel name="address.city"
+                                    placeholder="resume-edit.section.personal-information.field.address.city.placeholder"/>
+                    <InputWithLabel name="address.postalCode"
+                                    placeholder="resume-edit.section.personal-information.field.address.postal-code.placeholder"/>
+                    <InputWithLabel name="address.country"
+                                    placeholder="resume-edit.section.personal-information.field.address.country.placeholder"/>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-2">
+                    <InputWithLabel name="webUrl"
+                                    label="resume-edit.section.personal-information.field.web-url.label"
+                                    placeholder="resume-edit.section.personal-information.field.web-url.placeholder"/>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="profile" messageId="resume-edit.section.personal-information.field.profile.label"/>
+                    <Textarea name="profile" rows={5}/>
                   </div>
                 </div>
-                <InputWithLabel name="title" label="resume-edit.section.personal-information.field.title.label"/>
-                <div/>
-                <InputWithLabel name="firstname"
-                                label="resume-edit.section.personal-information.field.firstname.label"/>
-                <InputWithLabel name="lastname" label="resume-edit.section.personal-information.field.lastname.label"/>
-                <InputWithLabel name="phone" label="resume-edit.section.personal-information.field.phone.label"/>
-                <InputWithLabel name="email" label="resume-edit.section.personal-information.field.email.label"/>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                <InputWithLabel name="birthday" label="resume-edit.section.personal-information.field.birthday.label"/>
-                <InputWithLabel name="nationality"
-                                label="resume-edit.section.personal-information.field.nationality.label"/>
-              </div>
-
-              <div className="grid grid-cols-2 grid-rows-1 gap-2 items-end">
-                <InputWithLabel name="address.street"
-                                label="resume-edit.section.personal-information.field.address.street.label"
-                                placeholder="resume-edit.section.personal-information.field.address.street.placeholder"/>
-                <InputWithLabel name="address.city"
-                                placeholder="resume-edit.section.personal-information.field.address.city.placeholder"/>
-                <InputWithLabel name="address.postalCode"
-                                placeholder="resume-edit.section.personal-information.field.address.postal-code.placeholder"/>
-                <InputWithLabel name="address.country"
-                                placeholder="resume-edit.section.personal-information.field.address.country.placeholder"/>
-              </div>
-
-              <div className="grid grid-cols-1 gap-2">
-                <InputWithLabel name="webUrl"
-                                label="resume-edit.section.personal-information.field.web-url.label"
-                                placeholder="resume-edit.section.personal-information.field.web-url.placeholder"/>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="profile" messageId="resume-edit.section.personal-information.field.profile.label"/>
-                <Textarea name="profile" rows={5}/>
-              </div>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-        {/*<ScrollArea className="h-72">*/}
-        {/*  <div className="flex flex-col gap-4">*/}
-        {/*  {new Array(1000).fill(null).map((_, index) => <div key={index} className={`h-8 w-8 ${index % 2 === 0 ? 'bg-red-500' : 'bg-green-500'}`}/>)}*/}
-        {/*  </div>*/}
-        {/*</ScrollArea>*/}
+              </CollapsibleContent>
+            </Collapsible>
+          </div>
+          {/*<ScrollArea className="h-72">*/}
+          {/*  <div className="flex flex-col gap-4">*/}
+          {/*  {new Array(1000).fill(null).map((_, index) => <div key={index} className={`h-8 w-8 ${index % 2 === 0 ? 'bg-red-500' : 'bg-green-500'}`}/>)}*/}
+          {/*  </div>*/}
+          {/*</ScrollArea>*/}
+        </div>
       </ResizablePanel>
       <ResizableHandle withHandle/>
       <ResizablePanel className="pl-4 lg:pl-8">
