@@ -7,7 +7,7 @@ import {z} from 'zod';
 import {zfd} from 'zod-form-data';
 import {logger} from '~/common/logger.server';
 import {unknownCatchToPayload} from '~/common/unknownCatchToPayload';
-import {Form, FormButton, FormDateField, FormField, LanguageSelectFormField} from '~/components/form';
+import {Form, FormButton, FormDateField, FormField, FormLanguageSelectField} from '~/components/form';
 import {Avatar, AvatarFallback, AvatarImage} from '~/components/shadcn/avatar';
 import {Input} from '~/components/shadcn/input';
 import {useToast} from '~/components/shadcn/ui/use-toast';
@@ -137,12 +137,9 @@ export default function ProfilePage() {
       </div>
 
       <FormDateField i18nLabel="profile.form.birthday.label" name="birthday"/>
-      <LanguageSelectFormField i18nLabel="profile.form.nationality.label"
+      <FormLanguageSelectField i18nLabel="profile.form.nationality.label"
                                name="nationality"
-                               i18nPlaceholder={{
-                                 search: 'profile.form.nationality.placeholder.search',
-                                 noValue: 'profile.form.nationality.placeholder.no-value'
-                               }}
+                               placeholder={t('profile.form.nationality.placeholder.no-value')}
       />
 
       <FormField i18nLabel="profile.form.phone.label"
@@ -166,12 +163,9 @@ export default function ProfilePage() {
                  name="addressCity"
                  component={<Input/>}
       />
-      <LanguageSelectFormField i18nLabel="profile.form.address.country.label"
+      <FormLanguageSelectField i18nLabel="profile.form.address.country.label"
                                name="addressCountry"
-                               i18nPlaceholder={{
-                                 search: 'profile.form.address.country.placeholder.search',
-                                 noValue: 'profile.form.address.country.placeholder.no-value'
-                               }}
+                               placeholder={t('profile.form.address.country.placeholder.no-value')}
       />
 
       <div className="flex justify-start">

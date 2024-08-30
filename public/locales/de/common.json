@@ -8,5 +8,16 @@
 			"resumes": "Lebensläufe",
 			"settings": "Einstellungen"
 		}
+	},
+	"messages": {
+		"form": {
+			"success": "Passt",
+			"failed": "Nope :("
+		}
+	},
+	"field": {
+		"datepicker": {
+			"placeholder": "Datum auswählen"
+		}
 	}
 }

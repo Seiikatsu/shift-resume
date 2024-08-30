@@ -14,5 +14,13 @@
 			"success": "That worked!",
 			"failed": "Something went wrong :("
 		}
+	},
+	"field": {
+		"datepicker": {
+			"placeholder": "Pick a date"
+		},
+		"language-search": {
+			"search-placeholder": "Search..."
+		}
 	}
 }

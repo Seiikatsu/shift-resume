@@ -1,7 +1,7 @@
 import {cloneElement, FC} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {FormFieldProps} from '~/components/form/types';
+import {ControlledFormFieldProps, FormFieldProps} from '~/components/form/types';
 import {
   FormControl,
   FormDescription,
@@ -11,7 +11,14 @@ import {
   FormMessage
 } from '~/components/shadcn/ui/form';
 
-export const FormField: FC<FormFieldProps> = ({name, i18nLabel, i18nDescription, component, className}) => {
+export const FormField: FC<FormFieldProps> = ({
+                                                name,
+                                                i18nLabel,
+                                                i18nDescription,
+                                                placeholder,
+                                                component,
+                                                className
+                                              }) => {
   const {t} = useTranslation();
   const form = useFormContext();
 
@@ -20,15 +27,24 @@ export const FormField: FC<FormFieldProps> = ({name, i18nLabel, i18nDescription,
       control={form.control}
       name={name}
       render={({field}) => {
+        const fieldProps: ControlledFormFieldProps = {
+          ...field,
+        };
+        if (placeholder) {
+          fieldProps.placeholder = placeholder;
+        }
+
         let controlledField;
         if (typeof component === 'function') {
-          controlledField = component(field);
+          controlledField = component(fieldProps);
         } else {
-          controlledField = cloneElement(component, field);
+          controlledField = cloneElement(component, fieldProps);
         }
         return (
           <FormItem className={className}>
-            <FormLabel>{t(i18nLabel)}</FormLabel>
+            {i18nLabel ? (
+              <FormLabel>{t(i18nLabel)}</FormLabel>
+            ) : null}
             <FormControl>
               {controlledField}
             </FormControl>

@@ -51,18 +51,8 @@
 			"personal-information": {
 				"field": {
 					"address": {
-						"city": {
-							"placeholder": "City"
-						},
-						"country": {
-							"placeholder": "Country"
-						},
-						"postal-code": {
-							"placeholder": "Postal Code"
-						},
 						"street": {
-							"label": "Address",
-							"placeholder": "Street, number"
+							"label": "Address"
 						}
 					},
 					"birthday": {
@@ -93,8 +83,7 @@
 						"label": "Title"
 					},
 					"web-url": {
-						"label": "Web",
-						"placeholder": "https://..."
+						"label": "Web"
 					}
 				},
 				"section-title": "Personal Information"

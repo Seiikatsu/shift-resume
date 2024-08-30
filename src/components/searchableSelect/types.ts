@@ -8,8 +8,6 @@ export type SearchableSelectProps<VALUES extends string> = {
   value?: VALUES;
   options: SearchableSelectOption<VALUES>[];
   onChange?: (value: VALUES) => void;
-  placeholder: {
-    noValue: string;
-    search: string;
-  };
+  placeholder?: string;
+  searchPlaceholder?: string;
 }

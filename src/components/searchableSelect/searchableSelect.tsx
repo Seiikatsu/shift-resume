@@ -12,13 +12,26 @@ export function SearchableSelect<VALUES extends string>({
                                                           value,
                                                           options,
                                                           onChange,
-                                                          placeholder
+                                                          placeholder,
+                                                          searchPlaceholder
                                                         }: SearchableSelectProps<VALUES>) {
   const [open, setOpen] = React.useState(false);
 
-  const selectedValue = value
-    ? options.find((option) => option.value === value)?.label
-    : placeholder.noValue;
+  let selectedValue: string | undefined;
+  // of value was provided, check for it in the options
+  if (value) {
+    selectedValue = options.find((option) => option.value === value)?.label;
+  }
+
+  // alternatively, if the placeholder was provided try to find it
+  if (selectedValue === undefined && placeholder) {
+    selectedValue = options.find((option) => option.value === placeholder)?.label;
+  }
+
+  if (selectedValue === undefined) {
+    // last option: try to use the placeholder directly
+    selectedValue = placeholder;
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -30,13 +43,15 @@ export function SearchableSelect<VALUES extends string>({
           className="justify-between"
         >
           <input name={name} value={selectedValue} hidden readOnly/>
+          <span className={cn(value === undefined && 'text-muted-foreground')}>
           {selectedValue}
+          </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-0">
         <Command>
-          <CommandInput placeholder={placeholder.search}/>
+          <CommandInput placeholder={searchPlaceholder}/>
           <CommandList>
             <CommandEmpty>No entries found.</CommandEmpty>
             <CommandGroup>
@@ -44,8 +59,8 @@ export function SearchableSelect<VALUES extends string>({
                 <CommandItem
                   key={option.value}
                   value={option.value}
-                  onSelect={(selectedValue) => {
-                    onChange?.(selectedValue as VALUES);
+                  onSelect={(newValue) => {
+                    onChange?.(newValue as VALUES);
                     setOpen(false);
                   }}
                 >
