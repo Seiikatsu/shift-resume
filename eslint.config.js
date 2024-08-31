@@ -1,4 +1,5 @@
 import eslint from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import-x';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintReact from 'eslint-plugin-react';
@@ -11,8 +12,8 @@ export default tseslint.config({
     'build/**',
     // external components - we should not modify them in order to keep them easy to update
     'src/components/shadcn/**',
-    'eslint.config.js',
-    'postcss.config.js',
+    '*.config.js',
+    '.prettierignore',
   ],
   extends: [
     // eslint base
@@ -21,6 +22,8 @@ export default tseslint.config({
     // add typescript
     ...tseslint.configs.strictTypeChecked,
     ...tseslint.configs.stylisticTypeChecked,
+
+    prettierConfig,
 
     // custom plugins below
     importPlugin.flatConfigs.recommended,
@@ -40,50 +43,44 @@ export default tseslint.config({
     ...hooksPlugin.configs.recommended.rules,
 
     // adjusted eslint rules
-    curly: 'error',
     'no-console': 'warn',
     'no-nested-ternary': 'warn',
 
-
     // tslint rules
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
-    '@typescript-eslint/restrict-template-expressions': ['error', {
-      allowNumber: true,
-      allowAny: false,
-      allowArray: false,
-      allowBoolean: false,
-      allowNever: false,
-      allowNullish: false,
-      allowRegExp: false,
-    }],
+    '@typescript-eslint/restrict-template-expressions': [
+      'error',
+      {
+        allowNumber: true,
+        allowAny: false,
+        allowArray: false,
+        allowBoolean: false,
+        allowNever: false,
+        allowNullish: false,
+        allowRegExp: false,
+      },
+    ],
     '@typescript-eslint/no-unused-vars': [
       'error',
       {
-        'args': 'all',
-        'argsIgnorePattern': '^_',
-        'caughtErrors': 'all',
-        'caughtErrorsIgnorePattern': '^_',
-        'destructuredArrayIgnorePattern': '^_',
-        'varsIgnorePattern': '^_',
-        'ignoreRestSiblings': true
-      }
+        args: 'all',
+        argsIgnorePattern: '^_',
+        caughtErrors: 'all',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      },
     ],
     '@typescript-eslint/consistent-type-exports': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',
-
 
     // plugin rules
     'import-x/no-cycle': 'error',
     'import-x/order': [
       'error',
       {
-        groups: [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          ['sibling', 'index'],
-        ],
+        groups: ['builtin', 'external', 'internal', 'parent', ['sibling', 'index']],
         pathGroups: [
           {
             pattern: '~/**',
@@ -107,7 +104,7 @@ export default tseslint.config({
       project: true,
       projectService: true,
       tsconfigRootDir: import.meta.dirname,
-    }
+    },
   },
   settings: {
     react: {

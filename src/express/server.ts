@@ -1,19 +1,19 @@
 import * as fs from 'node:fs';
 
-import {createRequestHandler, type RequestHandler} from '@remix-run/express';
-import type {AppLoadContext, ServerBuild} from '@remix-run/node';
-import {installGlobals} from '@remix-run/node';
-import {ip as ipAddress} from 'address';
+import { createRequestHandler, type RequestHandler } from '@remix-run/express';
+import type { AppLoadContext, ServerBuild } from '@remix-run/node';
+import { installGlobals } from '@remix-run/node';
+import { ip as ipAddress } from 'address';
 import compression from 'compression';
 import express from 'express';
 import morgan from 'morgan';
 import sourceMapSupport from 'source-map-support';
 
-import {env} from '~/common/env.server';
-import {logger} from '~/common/logger.server';
-import {mikroOrmMiddleware} from '~/express/middleware/mikroOrm';
-import {connectToDb, disconnectDb} from '~/server/db/setup';
-import {userService} from '~/server/domain/user';
+import { env } from '~/common/env.server';
+import { logger } from '~/common/logger.server';
+import { mikroOrmMiddleware } from '~/express/middleware/mikroOrm';
+import { connectToDb, disconnectDb } from '~/server/db/setup';
+import { userService } from '~/server/domain/user';
 
 const start = Date.now();
 
@@ -22,9 +22,7 @@ let remixVersion = '';
 if (env.NODE_ENV !== 'production') {
   const getVersionFromPackageJson = (packageJson: string) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const pkgJson = JSON.parse(
-      fs.readFileSync(packageJson, 'utf-8')
-    );
+    const pkgJson = JSON.parse(fs.readFileSync(packageJson, 'utf-8'));
 
     if (typeof pkgJson !== 'object') {
       return 'NOT_FOUND';
@@ -63,10 +61,10 @@ const viteDevServer =
   env.NODE_ENV === 'production'
     ? undefined
     : await import('vite').then((vite) =>
-      vite.createServer({
-        server: {middlewareMode: true},
-      })
-    );
+        vite.createServer({
+          server: { middlewareMode: true },
+        }),
+      );
 
 /**
  * Get the server build.
@@ -77,9 +75,7 @@ const viteDevServer =
  */
 const getBuild = async (): Promise<ServerBuild> => {
   if (viteDevServer) {
-    return viteDevServer.ssrLoadModule(
-      'virtual:remix/server-build'
-    ) as Promise<ServerBuild>;
+    return viteDevServer.ssrLoadModule('virtual:remix/server-build') as Promise<ServerBuild>;
   }
   // @ts-expect-error (this file may or may not exist yet)
   // eslint-disable-next-line import-x/no-unresolved
@@ -90,15 +86,11 @@ const BASE_PATH = '';
 
 let didStartServer = false;
 
-const ignorePathPatterns = [
-  /\/public\/.*/,
-  /\/favicon.*/,
-  /\/health(\/.*)?/,
-];
+const ignorePathPatterns = [/\/public\/.*/, /\/favicon.*/, /\/health(\/.*)?/];
 
 export async function getLoadContext(
   req: express.Request,
-  _: express.Response
+  _: express.Response,
 ): Promise<AppLoadContext> {
   // We skip the authentication check for paths that match the ignorePathPatterns
   if (ignorePathPatterns.some((pattern) => pattern.test(req.path))) {
@@ -117,7 +109,7 @@ export async function getLoadContext(
 export async function startServerLifecycle() {
   if (didStartServer) {
     throw new Error(
-      'The express server has already been started. You can only have one instance running.'
+      'The express server has already been started. You can only have one instance running.',
     );
   }
 
@@ -131,16 +123,13 @@ export async function startServerLifecycle() {
   app.disable('x-powered-by');
 
   // Define the health endpoint
-  app.get(
-    '/health',
-    (_req, res) => {
-      return res.json({
-        status: 'up',
-        environment: env.NODE_ENV,
-        version: env.APP_VERSION,
-      });
-    }
-  );
+  app.get('/health', (_req, res) => {
+    return res.json({
+      status: 'up',
+      environment: env.NODE_ENV,
+      version: env.APP_VERSION,
+    });
+  });
 
   // handle asset requests
   if (viteDevServer) {
@@ -152,22 +141,18 @@ export async function startServerLifecycle() {
       express.static('build/client/assets', {
         immutable: true,
         maxAge: '1y',
-      })
+      }),
     );
   }
   // Everything else (like favicon.ico) is cached for an hour.
-  app.use(BASE_PATH, express.static('build/client', {maxAge: '1h'}));
+  app.use(BASE_PATH, express.static('build/client', { maxAge: '1h' }));
 
   app.use(
     morgan('tiny', {
       skip: (req, res) => {
-        return (
-          req.url === '/favicon.ico' ||
-          res.statusCode < 400 ||
-          req.url === '/health'
-        );
+        return req.url === '/favicon.ico' || res.statusCode < 400 || req.url === '/health';
       },
-    })
+    }),
   );
 
   app.enable('trust proxy');
@@ -179,7 +164,6 @@ export async function startServerLifecycle() {
       getLoadContext,
     });
   }
-
 
   app.use((req, res, next) => {
     if (ignorePathPatterns.some((pattern) => pattern.test(req.path))) {
@@ -231,18 +215,16 @@ export async function startServerLifecycle() {
   Local:            ${localUrl}
   ${lanUrl !== null ? `On Your Network:  ${lanUrl}` : ''}
   Press Ctrl+C to stop
-      `.trim()
+      `.trim(),
     );
 
     if (env.NODE_ENV !== 'production') {
       const elapsed = Date.now() - start;
 
-      logger.info(
-        `VITE v${viteVersion} Remix v${remixVersion} ready in ${elapsed} ms`
-      );
+      logger.info(`VITE v${viteVersion} Remix v${remixVersion} ready in ${elapsed} ms`);
     }
     logger.info(
-      `Server started in ${env.NODE_ENV === 'production' ? 'PRODUCTION mode 🚀' : 'DEVELOPMENT mode 🖥️'}`
+      `Server started in ${env.NODE_ENV === 'production' ? 'PRODUCTION mode 🚀' : 'DEVELOPMENT mode 🖥️'}`,
     );
   });
 

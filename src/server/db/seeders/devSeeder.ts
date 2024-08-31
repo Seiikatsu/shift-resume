@@ -1,11 +1,10 @@
-import type {EntityManager} from '@mikro-orm/postgresql';
-import {Seeder} from '@mikro-orm/seeder';
+import type { EntityManager } from '@mikro-orm/postgresql';
+import { Seeder } from '@mikro-orm/seeder';
 
-import {DbResume} from '~/server/db/entities/dbResume';
-import {DbUser} from '~/server/db/entities/dbUser';
+import { DbResume } from '~/server/db/entities/dbResume';
+import { DbUser } from '~/server/db/entities/dbUser';
 
 export class DevSeeder extends Seeder {
-
   run(em: EntityManager) {
     const user = em.getRepository(DbUser).create({
       title: null,

@@ -1,11 +1,11 @@
-import {RemixBrowser} from '@remix-run/react';
+import { RemixBrowser } from '@remix-run/react';
 import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
-import {startTransition, StrictMode} from 'react';
-import {hydrateRoot} from 'react-dom/client';
-import {I18nextProvider, initReactI18next} from 'react-i18next';
-import {getInitialNamespaces} from 'remix-i18next/client';
+import { startTransition, StrictMode } from 'react';
+import { hydrateRoot } from 'react-dom/client';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
+import { getInitialNamespaces } from 'remix-i18next/client';
 
 import i18n from '~/app/i18n/i18n';
 
@@ -18,11 +18,9 @@ function hydrate() {
     .init({
       ...i18n, // spread the configuration
       ns: getInitialNamespaces(),
-      backend: {loadPath: '/locales/{{lng}}/{{ns}}.json'},
+      backend: { loadPath: '/locales/{{lng}}/{{ns}}.json' },
       saveMissing: true,
-      missingKeyHandler: (_lngs,
-                          ns,
-                          key,) => {
+      missingKeyHandler: (_lngs, ns, key) => {
         console.error(`i18next::missing-key: "${key}" in namespace "${ns}"`);
       },
       detection: {
@@ -41,7 +39,7 @@ function hydrate() {
           document,
           <I18nextProvider i18n={i18next}>
             <StrictMode>
-              <RemixBrowser/>
+              <RemixBrowser />
             </StrictMode>
           </I18nextProvider>,
         );

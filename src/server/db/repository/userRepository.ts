@@ -1,7 +1,5 @@
-import {EntityRepository} from '@mikro-orm/postgresql';
+import { EntityRepository } from '@mikro-orm/postgresql';
 
-import type {DbUser} from '~/server/db/entities/dbUser';
+import type { DbUser } from '~/server/db/entities/dbUser';
 
-export class UserRepository extends EntityRepository<DbUser> {
-
-}
+export class UserRepository extends EntityRepository<DbUser> {}

@@ -1,6 +1,6 @@
-import {createLogger} from '@seiikatsu/logger';
+import { createLogger } from '@seiikatsu/logger';
 
-import {env} from '~/common/env.server';
+import { env } from '~/common/env.server';
 
 export const logger = createLogger({
   serviceName: 'shift-resume',

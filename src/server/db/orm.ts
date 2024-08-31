@@ -1,6 +1,6 @@
-import {FlushMode, MikroORM} from '@mikro-orm/postgresql';
+import { FlushMode, MikroORM } from '@mikro-orm/postgresql';
 
-import {env} from '~/common/env.server';
+import { env } from '~/common/env.server';
 
 let orm: MikroORM | null = null;
 export const getOrm = async () => {

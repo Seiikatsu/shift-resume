@@ -1,20 +1,20 @@
-import {getEntityManager} from '~/server/db';
-import {DbResume} from '~/server/db/entities/dbResume';
-import {Resume} from '~/server/domain/resume/dto';
+import { getEntityManager } from '~/server/db';
+import { DbResume } from '~/server/db/entities/dbResume';
+import { Resume } from '~/server/domain/resume/dto';
 
 type Input = {
   userId: string;
-}
+};
 
 type Output = Resume[];
 
-export const userResumes = async ({userId}: Input): Promise<Output> => {
+export const userResumes = async ({ userId }: Input): Promise<Output> => {
   const resumeRepository = (await getEntityManager()).getRepository(DbResume);
 
   const dbResumes = await resumeRepository.findAll({
     where: {
-      owner: userId
-    }
+      owner: userId,
+    },
   });
 
   return dbResumes.map((dbResume) => {

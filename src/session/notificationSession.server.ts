@@ -1,6 +1,6 @@
-import {createCookieSessionStorage} from '@remix-run/node';
+import { createCookieSessionStorage } from '@remix-run/node';
 
-import {env} from '~/common/env.server';
+import { env } from '~/common/env.server';
 
 type SessionFlashData = {
   notification?: {

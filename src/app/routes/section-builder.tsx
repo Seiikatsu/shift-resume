@@ -1,21 +1,35 @@
-import type {ButtonHTMLAttributes, Dispatch, FC, SetStateAction} from 'react';
-import React, {useCallback, useState} from 'react';
-import {v7} from 'uuid';
+import type { ButtonHTMLAttributes, Dispatch, FC, SetStateAction } from 'react';
+import React, { useCallback, useState } from 'react';
+import { v7 } from 'uuid';
 
-import type {AllFieldTypes, ContentField, GroupField} from 'src/components/sectionBuilder/fieldRenderer';
-import type {Section} from 'src/components/sectionBuilder/preview';
-import {SectionPreview} from 'src/components/sectionBuilder/preview';
-import {generateRandomLabel} from '~/__dev__/generateRandomLabel';
-import {findField, getParents, promoteOrDemoteNode, reorderFields} from '~/components/sectionBuilder/dnd/utils';
-import {SectionPreviewContext} from '~/components/sectionBuilder/preview/context';
+import type {
+  AllFieldTypes,
+  ContentField,
+  GroupField,
+} from 'src/components/sectionBuilder/fieldRenderer';
+import type { Section } from 'src/components/sectionBuilder/preview';
+import { SectionPreview } from 'src/components/sectionBuilder/preview';
+import { generateRandomLabel } from '~/__dev__/generateRandomLabel';
+import {
+  findField,
+  getParents,
+  promoteOrDemoteNode,
+  reorderFields,
+} from '~/components/sectionBuilder/dnd/utils';
+import { SectionPreviewContext } from '~/components/sectionBuilder/preview/context';
 
 type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & {
   setSection: Dispatch<SetStateAction<Section>>;
   fieldType: AllFieldTypes;
   additionalProps?: Record<string, unknown>;
-}
+};
 
-const Button: FC<ButtonProps> = ({fieldType, setSection, additionalProps: _additionalProps = {}, ...props}) => {
+const Button: FC<ButtonProps> = ({
+  fieldType,
+  setSection,
+  additionalProps: _additionalProps = {},
+  ...props
+}) => {
   const onClick = useCallback(() => {
     setSection((prevState) => {
       let t: ContentField | GroupField;
@@ -36,17 +50,18 @@ const Button: FC<ButtonProps> = ({fieldType, setSection, additionalProps: _addit
 
       return {
         ...prevState,
-        fields: [
-          ...prevState.fields,
-          t,
-        ]
+        fields: [...prevState.fields, t],
       };
     });
   }, [setSection, fieldType]);
 
   return (
     <li>
-      <button {...props} onClick={onClick} className="py-1 px-2 text-xs border border-neutral-200"/>
+      <button
+        {...props}
+        onClick={onClick}
+        className="py-1 px-2 text-xs border border-neutral-200"
+      />
     </li>
   );
 };
@@ -108,7 +123,8 @@ export default function SectionBuilder() {
             };
           });
         },
-      }}>
+      }}
+    >
       <div className="h-screen p-4 flex flex-col gap-8">
         <div>
           <ul className="flex flex-row gap-2">
@@ -124,17 +140,22 @@ export default function SectionBuilder() {
             <Button fieldType="image" setSection={setSection}>
               Image field
             </Button>
-            <Button fieldType="group" setSection={setSection} additionalProps={{fields: []}}>
+            <Button fieldType="group" setSection={setSection} additionalProps={{ fields: [] }}>
               Group
             </Button>
           </ul>
         </div>
         <div className="flex-1 flex flex-row gap-4">
           <div className="flex-1">
-            <SectionPreview {...section}/>
+            <SectionPreview {...section} />
           </div>
           <div className="flex-1">
-            <textarea readOnly disabled className="w-full h-full" value={JSON.stringify(section, null, 2)}/>
+            <textarea
+              readOnly
+              disabled
+              className="w-full h-full"
+              value={JSON.stringify(section, null, 2)}
+            />
           </div>
         </div>
       </div>

@@ -1,21 +1,27 @@
-import {Check, ChevronsUpDown} from 'lucide-react';
+import { Check, ChevronsUpDown } from 'lucide-react';
 import * as React from 'react';
 
-import {cn} from '~/common/utils';
-import type {SearchableSelectProps} from '~/components/searchableSelect/types';
-import {Button} from '~/components/shadcn/button';
-import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from '~/components/shadcn/command';
-import {Popover, PopoverContent, PopoverTrigger} from '~/components/shadcn/popover';
-
+import { cn } from '~/common/utils';
+import type { SearchableSelectProps } from '~/components/searchableSelect/types';
+import { Button } from '~/components/shadcn/button';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '~/components/shadcn/command';
+import { Popover, PopoverContent, PopoverTrigger } from '~/components/shadcn/popover';
 
 export function SearchableSelect<VALUES extends string>({
-                                                          name,
-                                                          value,
-                                                          options,
-                                                          onChange,
-                                                          placeholder,
-                                                          searchPlaceholder
-                                                        }: SearchableSelectProps<VALUES>) {
+  name,
+  value,
+  options,
+  onChange,
+  placeholder,
+  searchPlaceholder,
+}: SearchableSelectProps<VALUES>) {
   const [open, setOpen] = React.useState(false);
 
   let selectedValue: string | undefined;
@@ -37,22 +43,17 @@ export function SearchableSelect<VALUES extends string>({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="justify-between"
-        >
-          <input name={name} value={selectedValue} hidden readOnly/>
+        <Button variant="outline" role="combobox" aria-expanded={open} className="justify-between">
+          <input name={name} value={selectedValue} hidden readOnly />
           <span className={cn(value === undefined && 'text-muted-foreground')}>
-          {selectedValue}
+            {selectedValue}
           </span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-0">
         <Command>
-          <CommandInput placeholder={searchPlaceholder}/>
+          <CommandInput placeholder={searchPlaceholder} />
           <CommandList>
             <CommandEmpty>No entries found.</CommandEmpty>
             <CommandGroup>
@@ -68,7 +69,7 @@ export function SearchableSelect<VALUES extends string>({
                   <Check
                     className={cn(
                       'mr-2 h-4 w-4',
-                      value === option.value ? 'opacity-100' : 'opacity-0'
+                      value === option.value ? 'opacity-100' : 'opacity-0',
                     )}
                   />
                   {option.label}

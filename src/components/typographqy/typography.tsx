@@ -1,15 +1,15 @@
-import type { FC} from 'react';
-import {createElement, useMemo} from 'react';
-import {useTranslation} from 'react-i18next';
+import type { FC } from 'react';
+import { createElement, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import {cn} from '~/common/utils';
+import { cn } from '~/common/utils';
 import type {
   TypographyAlign,
   TypographyLinePlacement,
   TypographyProps,
   TypographyTag,
   TypographyVariant,
-  TypographyWeight
+  TypographyWeight,
 } from '~/components/typographqy/types';
 
 const TAG_VARIANT: Record<TypographyTag, TypographyVariant> = {
@@ -21,43 +21,43 @@ const TAG_VARIANT: Record<TypographyTag, TypographyVariant> = {
 };
 
 const VARIANT_STYLES: Record<TypographyVariant, string> = {
-  'hero': 'text-4xl tracking-tight',
+  hero: 'text-4xl tracking-tight',
   'section-headline': 'text-3xl tracking-tight',
   'title-headline': 'text-2xl tracking-tight',
-  'paragraph': 'leading-7',
+  paragraph: 'leading-7',
 };
 
 const FONT_WEIGHT_STYLES: Record<TypographyWeight, string> = {
   light: 'font-light',
-  'normal': 'font-normal',
+  normal: 'font-normal',
   'semi-bold': 'font-semibold',
-  'bold': 'font-bold',
+  bold: 'font-bold',
 };
 
 const LINE_PLACEMENT: Record<TypographyLinePlacement, string> = {
-  'underline': 'underline',
+  underline: 'underline',
   'strike-through': 'line-through',
 };
 
 const ALIGNMENT: Record<TypographyAlign, string> = {
-  'left': 'text-left',
-  'center': 'text-center',
-  'right': 'text-right',
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
 };
 
 export const Typography: FC<TypographyProps> = ({
-                                                  tag,
-                                                  variant,
-                                                  fontWeight = 'normal',
-                                                  italic = false,
-                                                  align = 'left',
-                                                  linePlacement,
-                                                  muted,
-                                                  messageId,
-                                                  className,
-                                                  children,
-                                                }) => {
-  const {t} = useTranslation(undefined);
+  tag,
+  variant,
+  fontWeight = 'normal',
+  italic = false,
+  align = 'left',
+  linePlacement,
+  muted,
+  messageId,
+  className,
+  children,
+}) => {
+  const { t } = useTranslation(undefined);
 
   const memorizedClassName = useMemo(() => {
     return cn(
@@ -67,15 +67,19 @@ export const Typography: FC<TypographyProps> = ({
       italic && 'italic',
       linePlacement && LINE_PLACEMENT[linePlacement],
       muted && 'text-muted',
-      className
+      className,
     );
   }, [tag, align, muted, variant, fontWeight, italic, linePlacement, className]);
 
   const content = useMemo(() => {
-    return messageId ? t(messageId, {defaultValue: children}) : children;
+    return messageId ? t(messageId, { defaultValue: children }) : children;
   }, [t, messageId, children]);
 
-  return createElement(tag, {
-    className: memorizedClassName,
-  }, content);
+  return createElement(
+    tag,
+    {
+      className: memorizedClassName,
+    },
+    content,
+  );
 };

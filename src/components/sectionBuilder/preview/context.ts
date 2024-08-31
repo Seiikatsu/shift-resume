@@ -1,6 +1,6 @@
-import {createContext} from 'react';
+import { createContext } from 'react';
 
-import type {SectionField} from 'src/components/sectionBuilder/fieldRenderer';
+import type { SectionField } from 'src/components/sectionBuilder/fieldRenderer';
 
 type SectionContextType = {
   fields: SectionField[];
@@ -10,8 +10,7 @@ type SectionContextType = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const noop = () => {
-};
+const noop = () => {};
 
 export const SectionPreviewContext = createContext<SectionContextType>({
   fields: [],

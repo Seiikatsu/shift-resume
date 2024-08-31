@@ -12,9 +12,9 @@
     "build:server": "vite build -c vite.server.config.ts",
     "dev": "tsx --inspect ./src/express/server.ts",
     "start": "NODE_ENV=production node ./build/server.js",
-    "eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
-    "typecheck": "tsc --noEmit",
-    "lint": "pnpm typecheck && pnpm eslint",
+    "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
+    "lint:ts": "tsc --noEmit",
+    "lint": "pnpm lint:ts && pnpm lint:eslint",
     "migration:create": "tsx node_modules/@mikro-orm/cli/esm --config mikro-orm.config.ts migration:create",
     "seed:create": "tsx node_modules/@mikro-orm/cli/esm --config mikro-orm.config.ts seeder:create",
     "db:seed": "tsx node_modules/@mikro-orm/cli/esm seeder:run --config mikro-orm.config.ts --class DevSeeder",
@@ -95,6 +95,7 @@
     "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.19",
     "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import-x": "^4.1.1",
     "eslint-plugin-jsx-a11y": "^6.9.0",
@@ -105,6 +106,7 @@
     "lint-staged": "^15.2.9",
     "patch-package": "^8.0.0",
     "postcss": "^8.4.38",
+    "prettier": "^3.3.3",
     "source-map-support": "^0.5.21",
     "tailwindcss": "^3.4.4",
     "tsx": "^4.19.0",
@@ -118,7 +120,7 @@
     "node": ">=20.0.0"
   },
   "lint-staged": {
-    "*": "eslint --cache --cache-location ./node_modules/.cache/eslint"
+    "*{ts,tsx}": "eslint --cache --cache-location ./node_modules/.cache/eslint"
   },
   "packageManager": "pnpm@9.9.0"
 }

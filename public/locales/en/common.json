@@ -1,26 +1,26 @@
 {
-	"actions": {
-		"save": "Save"
-	},
-	"navigation": {
-		"item": {
-			"profile": "Profile",
-			"resumes": "Resumes",
-			"settings": "Settings"
-		}
-	},
-	"messages": {
-		"form": {
-			"success": "That worked!",
-			"failed": "Something went wrong :("
-		}
-	},
-	"field": {
-		"datepicker": {
-			"placeholder": "Pick a date"
-		},
-		"language-search": {
-			"search-placeholder": "Search..."
-		}
-	}
+  "actions": {
+    "save": "Save"
+  },
+  "navigation": {
+    "item": {
+      "profile": "Profile",
+      "resumes": "Resumes",
+      "settings": "Settings"
+    }
+  },
+  "messages": {
+    "form": {
+      "success": "That worked!",
+      "failed": "Something went wrong :("
+    }
+  },
+  "field": {
+    "datepicker": {
+      "placeholder": "Pick a date"
+    },
+    "language-search": {
+      "search-placeholder": "Search..."
+    }
+  }
 }

@@ -1,7 +1,7 @@
-import { resolve } from "node:path";
+import { resolve } from 'node:path';
 
-import Backend from "i18next-fs-backend";
-import { RemixI18Next } from "remix-i18next/server";
+import Backend from 'i18next-fs-backend';
+import { RemixI18Next } from 'remix-i18next/server';
 
 import i18n from '~/app/i18n/i18n';
 
@@ -15,7 +15,7 @@ const i18next = new RemixI18Next({
   i18next: {
     ...i18n,
     backend: {
-      loadPath: resolve("./public/locales/{{lng}}/{{ns}}.json"),
+      loadPath: resolve('./public/locales/{{lng}}/{{ns}}.json'),
     },
   },
   // The i18next plugins you want RemixI18next to use for `i18n.getFixedT` inside loaders and actions.

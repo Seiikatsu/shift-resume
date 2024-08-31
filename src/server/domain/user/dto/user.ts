@@ -1,8 +1,8 @@
-import {Validated} from 'validated-extendable';
-import {z} from 'zod';
+import { Validated } from 'validated-extendable';
+import { z } from 'zod';
 
-import {countriesUnion} from '~/server/domain/common/dto/countries';
-import {urlSchema} from '~/server/domain/common/dto/url';
+import { countriesUnion } from '~/server/domain/common/dto/countries';
+import { urlSchema } from '~/server/domain/common/dto/url';
 
 /**
  * General user object.
@@ -33,6 +33,4 @@ export const userSchema = z.object({
   webUrl: urlSchema.nullable(),
 });
 
-export class User extends Validated(userSchema) {
-
-}
+export class User extends Validated(userSchema) {}

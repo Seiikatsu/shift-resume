@@ -3,8 +3,8 @@
 ## Predefined
 
 - Profile
-    - take data from profile
-    - store adjusted data in resume
+  - take data from profile
+  - store adjusted data in resume
 - Work experience / education
 
 ## Custom fields
@@ -16,6 +16,7 @@
 - type
 
 ### Field types
+
 - Text (input)
 - Datum (input)
 - Email (input)
@@ -29,8 +30,8 @@
 ### Display
 
 - Language / Skills
-    - Slider (e.g. 1 of 5 points)
-    - Text (e.g. "Beginner")
+  - Slider (e.g. 1 of 5 points)
+  - Text (e.g. "Beginner")
 - Interest / Strengths
-    - Lists?
-    - Icons?
+  - Lists?
+  - Icons?

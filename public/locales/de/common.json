@@ -1,23 +1,23 @@
 {
-	"actions": {
-		"save": "Speichern"
-	},
-	"navigation": {
-		"item": {
-			"profile": "Profil",
-			"resumes": "Lebensläufe",
-			"settings": "Einstellungen"
-		}
-	},
-	"messages": {
-		"form": {
-			"success": "Passt",
-			"failed": "Nope :("
-		}
-	},
-	"field": {
-		"datepicker": {
-			"placeholder": "Datum auswählen"
-		}
-	}
+  "actions": {
+    "save": "Speichern"
+  },
+  "navigation": {
+    "item": {
+      "profile": "Profil",
+      "resumes": "Lebensläufe",
+      "settings": "Einstellungen"
+    }
+  },
+  "messages": {
+    "form": {
+      "success": "Passt",
+      "failed": "Nope :("
+    }
+  },
+  "field": {
+    "datepicker": {
+      "placeholder": "Datum auswählen"
+    }
+  }
 }

@@ -1,10 +1,10 @@
 import * as path from 'node:path';
 
-import {Migrator} from '@mikro-orm/migrations';
-import {defineConfig} from '@mikro-orm/postgresql';
-import {SeedManager} from '@mikro-orm/seeder';
+import { Migrator } from '@mikro-orm/migrations';
+import { defineConfig } from '@mikro-orm/postgresql';
+import { SeedManager } from '@mikro-orm/seeder';
 
-import {env} from '~/common/env.server';
+import { env } from '~/common/env.server';
 
 const JS_BASE_DIR = path.join(process.cwd(), 'dist', 'server', 'db');
 const TS_BASE_DIR = path.join(process.cwd(), 'src', 'server', 'db');

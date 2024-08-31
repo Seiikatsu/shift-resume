@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return */
-import type {z} from 'zod';
+import type { z } from 'zod';
 
 const KEY_SEPARATOR = '.';
 const IS_NUMBER_REGEX = /^\d+$/;
@@ -15,7 +15,10 @@ const tryParse = (v: unknown) => {
   return v;
 };
 
-export const formDataToObject = <T extends object>(formData: FormData, schema: z.Schema<T>): T | null => {
+export const formDataToObject = <T extends object>(
+  formData: FormData,
+  schema: z.Schema<T>,
+): T | null => {
   const resultObject: any = {};
   for (const [key, value] of formData) {
     const data = tryParse(value);
@@ -93,7 +96,11 @@ export const createFormDataRecursive = (
     }
 
     if (typeof value === 'object') {
-      createFormDataRecursive(value as Record<string, unknown>, formDataKey + KEY_SEPARATOR, formData);
+      createFormDataRecursive(
+        value as Record<string, unknown>,
+        formDataKey + KEY_SEPARATOR,
+        formData,
+      );
       continue;
     }
 

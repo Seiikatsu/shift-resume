@@ -1,19 +1,18 @@
-import {resolve} from 'node:path';
-import {PassThrough} from 'stream';
+import { resolve } from 'node:path';
+import { PassThrough } from 'stream';
 
-import {createReadableStreamFromReadable, type EntryContext,} from '@remix-run/node';
-import {RemixServer} from '@remix-run/react';
-import {createInstance} from 'i18next';
+import { createReadableStreamFromReadable, type EntryContext } from '@remix-run/node';
+import { RemixServer } from '@remix-run/react';
+import { createInstance } from 'i18next';
 import Backend from 'i18next-fs-backend';
-import {isbot} from 'isbot';
-import {renderToPipeableStream} from 'react-dom/server';
-import {I18nextProvider, initReactI18next} from 'react-i18next';
-
+import { isbot } from 'isbot';
+import { renderToPipeableStream } from 'react-dom/server';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
 
 import i18n from '~/app/i18n/i18n';
 import i18next from '~/app/i18n/i18next.server';
-import {logger} from '~/common/logger.server';
-import {unknownCatchToPayload} from '~/common/unknownCatchToPayload';
+import { logger } from '~/common/logger.server';
+import { unknownCatchToPayload } from '~/common/unknownCatchToPayload';
 
 const ABORT_DELAY = 5000;
 
@@ -38,15 +37,15 @@ export default async function handleRequest(
       ...i18n, // spread the configuration
       lng, // The locale we detected above
       ns, // The namespaces the routes about to render wants to use
-      backend: {loadPath: resolve('./public/locales/{{lng}}/{{ns}}.json')},
+      backend: { loadPath: resolve('./public/locales/{{lng}}/{{ns}}.json') },
     });
 
   return new Promise((resolve, reject) => {
     let didError = false;
 
-    const {pipe, abort} = renderToPipeableStream(
+    const { pipe, abort } = renderToPipeableStream(
       <I18nextProvider i18n={instance}>
-        <RemixServer context={remixContext} url={request.url}/>
+        <RemixServer context={remixContext} url={request.url} />
       </I18nextProvider>,
       {
         [callbackName]: () => {

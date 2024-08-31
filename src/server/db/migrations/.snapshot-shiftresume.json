@@ -1,7 +1,5 @@
 {
-  "namespaces": [
-    "public"
-  ],
+  "namespaces": ["public"],
   "name": "public",
   "tables": [
     {
@@ -160,9 +158,7 @@
       "schema": "public",
       "indexes": [
         {
-          "columnNames": [
-            "email"
-          ],
+          "columnNames": ["email"],
           "composite": false,
           "keyName": "users_email_index",
           "constraint": false,
@@ -170,9 +166,7 @@
           "unique": false
         },
         {
-          "columnNames": [
-            "email"
-          ],
+          "columnNames": ["email"],
           "composite": false,
           "keyName": "users_email_unique",
           "constraint": true,
@@ -181,9 +175,7 @@
         },
         {
           "keyName": "users_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
           "constraint": true,
           "primary": true,
@@ -259,9 +251,7 @@
       "schema": "public",
       "indexes": [
         {
-          "columnNames": [
-            "title"
-          ],
+          "columnNames": ["title"],
           "composite": false,
           "keyName": "resumes_title_index",
           "constraint": false,
@@ -269,9 +259,7 @@
           "unique": false
         },
         {
-          "columnNames": [
-            "title"
-          ],
+          "columnNames": ["title"],
           "composite": false,
           "keyName": "resumes_title_unique",
           "constraint": true,
@@ -280,9 +268,7 @@
         },
         {
           "keyName": "resumes_pkey",
-          "columnNames": [
-            "id"
-          ],
+          "columnNames": ["id"],
           "composite": false,
           "constraint": true,
           "primary": true,
@@ -293,13 +279,9 @@
       "foreignKeys": {
         "resumes_owner_id_foreign": {
           "constraintName": "resumes_owner_id_foreign",
-          "columnNames": [
-            "owner_id"
-          ],
+          "columnNames": ["owner_id"],
           "localTableName": "public.resumes",
-          "referencedColumnNames": [
-            "id"
-          ],
+          "referencedColumnNames": ["id"],
           "referencedTableName": "public.users",
           "updateRule": "cascade"
         }

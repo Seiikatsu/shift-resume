@@ -1,6 +1,6 @@
-import {logger} from '~/common/logger.server';
-import {unknownCatchToPayload} from '~/common/unknownCatchToPayload';
-import {getOrm} from '~/server/db/orm';
+import { logger } from '~/common/logger.server';
+import { unknownCatchToPayload } from '~/common/unknownCatchToPayload';
+import { getOrm } from '~/server/db/orm';
 
 export const connectToDb = async () => {
   try {

@@ -1,7 +1,7 @@
-import type {SubmitOptions} from '@remix-run/react';
-import { useActionData, useNavigation, useSubmit} from '@remix-run/react';
-import type {SerializeFrom} from '@remix-run/server-runtime';
-import {useCallback, useEffect, useMemo} from 'react';
+import type { SubmitOptions } from '@remix-run/react';
+import { useActionData, useNavigation, useSubmit } from '@remix-run/react';
+import type { SerializeFrom } from '@remix-run/server-runtime';
+import { useCallback, useEffect, useMemo } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -18,7 +18,7 @@ function deferred<T>() {
   return {
     resolve,
     reject,
-    promise
+    promise,
   };
 }
 
@@ -36,7 +36,7 @@ type SubmitTarget =
  */
 export const useSubmitPromise = <
   // T extends unknown,
-  P = unknown/* = T extends (...args: unknown[]) => unknown ? Awaited<ReturnType<T>> : T,*/
+  P = unknown /* = T extends (...args: unknown[]) => unknown ? Awaited<ReturnType<T>> : T,*/,
 >() => {
   const submit = useSubmit();
   const navigation = useNavigation();
@@ -54,6 +54,6 @@ export const useSubmitPromise = <
       submit(target, options);
       return $deferred.promise;
     },
-    [$deferred.promise, submit]
+    [$deferred.promise, submit],
   );
 };
