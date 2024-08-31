@@ -32,6 +32,8 @@ export type TypographyProps = PropsWithChildren<{
 
   italic?: boolean;
 
+  muted?: boolean;
+
   /**
    * Optional message id which is resolved using i18next.
    * If provided, will replace the children when loaded.

@@ -26,7 +26,7 @@ const VARIANT_STYLES: Record<TypographyVariant, string> = {
 };
 
 const FONT_WEIGHT_STYLES: Record<TypographyWeight, string> = {
-  light: 'font-lighter',
+  light: 'font-light',
   'normal': 'font-normal',
   'semi-bold': 'font-semibold',
   'bold': 'font-bold',
@@ -50,6 +50,7 @@ export const Typography: FC<TypographyProps> = ({
                                                   italic = false,
                                                   align = 'left',
                                                   linePlacement,
+                                                  muted,
                                                   messageId,
                                                   className,
                                                   children,
@@ -63,6 +64,7 @@ export const Typography: FC<TypographyProps> = ({
       FONT_WEIGHT_STYLES[fontWeight],
       italic && 'italic',
       linePlacement && LINE_PLACEMENT[linePlacement],
+      muted && 'text-muted',
       className
     );
   }, [tag, variant, fontWeight, italic, linePlacement, className]);

@@ -49,6 +49,7 @@
 	"resume-edit": {
 		"section": {
 			"personal-information": {
+				"section-title": "Personal Information",
 				"field": {
 					"address": {
 						"street": {
@@ -85,8 +86,34 @@
 					"web-url": {
 						"label": "Web"
 					}
-				},
-				"section-title": "Personal Information"
+				}
+			},
+			"work-experience": {
+				"section-title": "Work Experience",
+				"add-experience": "+ Add work experience",
+				"field": {
+					"company": {
+						"label": "Company"
+					},
+					"title": {
+						"label": "Title"
+					},
+					"city": {
+						"label": "City"
+					},
+					"country": {
+						"label": "Country"
+					},
+					"from": {
+						"label": "From"
+					},
+					"to": {
+						"label": "to"
+					},
+					"description": {
+						"label": "Description"
+					}
+				}
 			}
 		},
 		"title": "Edit resume",

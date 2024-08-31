@@ -66,6 +66,7 @@
     "react-resizable-panels": "^2.1.1",
     "remix-hook-form": "^5.0.4",
     "remix-i18next": "^6.3.0",
+    "remix-utils": "^7.6.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^10.0.0",
@@ -74,6 +75,7 @@
     "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
+    "@hookform/devtools": "^4.3.1",
     "@mikro-orm/cli": "^6.3.7",
     "@mikro-orm/migrations": "^6.3.7",
     "@mikro-orm/seeder": "^6.3.7",

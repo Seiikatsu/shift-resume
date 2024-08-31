@@ -1,14 +1,14 @@
 import {ActionFunctionArgs, LoaderFunctionArgs, redirect} from '@remix-run/node';
 import {useLoaderData} from '@remix-run/react';
-import {IconUser} from '@tabler/icons-react';
+import {IconBriefcase2, IconUser} from '@tabler/icons-react';
 import {DateTime} from 'luxon';
 import {z} from 'zod';
 import {formDataToObject} from '~/common/formData';
 import {logger} from '~/common/logger.server';
-import {Form, FormDateField, FormInputField, FormLanguageSelectField} from '~/components/form';
+import {Form, FormButton, FormDateField, FormInputField, FormLanguageSelectField} from '~/components/form';
 import {FormTextareaField} from '~/components/form/formTextareaField';
 import {Label} from '~/components/label';
-import {ResumeSection} from '~/components/resume-edit';
+import {ResumeSection, WorkExperienceSection} from '~/components/resume-edit';
 import {Avatar, AvatarFallback} from '~/components/shadcn/avatar';
 import {Checkbox} from '~/components/shadcn/checkbox';
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from '~/components/shadcn/resizable';
@@ -16,7 +16,7 @@ import {Typography} from '~/components/typographqy';
 import {resumeService} from '~/server/domain/resume';
 import {notificationSessionStorage} from '~/session/notificationSession.server';
 
-const resumeSchema = z.object({
+const personalInformationSchema = z.object({
   avatar: z.string(),
   showAvatar: z.boolean(),
   title: z.string(),
@@ -32,6 +32,21 @@ const resumeSchema = z.object({
   }),
   webUrl: z.string(),
   profile: z.string(),
+});
+
+const workExperienceSchema = z.object({
+  company: z.string(),
+  title: z.string(),
+  city: z.string(),
+  country: z.string(),
+  from: z.string(),
+  to: z.string().optional(),
+  description: z.string(),
+});
+
+const resumeSchema = z.object({
+  personalInformation: personalInformationSchema,
+  workExperience: z.array(workExperienceSchema),
 });
 
 export const loader = async ({request, context, params}: LoaderFunctionArgs) => {
@@ -94,25 +109,29 @@ export default function EditResumePage() {
         <div className="overflow-auto scroller h-full">
           <Form schema={resumeSchema}
                 defaultValues={{
-                  avatar: '',
-                  showAvatar: true,
-                  title: '',
-                  firstname: '',
-                  lastname: '',
-                  birthday: '',
-                  profile: '',
-                  nationality: '',
-                  address: {
-                    street: '',
-                    postalCode: '',
-                    city: '',
-                    country: '',
+                  personalInformation: {
+                    avatar: '',
+                    showAvatar: true,
+                    title: '',
+                    firstname: '',
+                    lastname: '',
+                    birthday: '',
+                    profile: '',
+                    nationality: '',
+                    address: {
+                      street: '',
+                      postalCode: '',
+                      city: '',
+                      country: '',
+                    },
+                    webUrl: '',
                   },
-                  webUrl: '',
+                  workExperience: [],
                 }}
-                submitMode="onBlur"
+            // TODO(bug): onBlur needs some fixes - triggers way to much!
+            // submitMode="onBlur"
                 submittedHandler={console.log}
-                className="pr-4 lg:pr-8"
+                className="flex flex-col gap-8 pr-4 lg:pr-8"
           >
             <ResumeSection titleMessageId="resume-edit.section.personal-information.section-title" icon={IconUser}>
               <div className="grid grid-cols-2 gap-4">
@@ -129,44 +148,51 @@ export default function EditResumePage() {
                     </div>
                   </div>
                   <FormInputField i18nLabel="resume-edit.section.personal-information.field.title.label"
-                                  name="title"
+                                  name="personalInformation.title"
                                   placeholder={user.title ?? undefined}/>
                   <div/>
                   <FormInputField i18nLabel="resume-edit.section.personal-information.field.firstname.label"
-                                  name="firstname"
+                                  name="personalInformation.firstname"
                                   placeholder={user.firstname}/>
-                  <FormInputField name="lastname"
+                  <FormInputField name="personalInformation.lastname"
                                   i18nLabel="resume-edit.section.personal-information.field.lastname.label"
                                   placeholder={user.lastname}/>
                 </div>
 
-                <FormDateField name="birthday"
+                <FormDateField name="personalInformation.birthday"
                                i18nLabel="resume-edit.section.personal-information.field.birthday.label"
                                placeholder={DateTime.fromFormat(user.birthday, 'yyyy-MM-dd').toISODate() ?? undefined}/>
-                <FormLanguageSelectField name="nationality"
+                <FormLanguageSelectField name="personalInformation.nationality"
                                          i18nLabel="resume-edit.section.personal-information.field.nationality.label"
                                          placeholder={user.nationality ?? undefined}/>
-                <FormInputField name="address.street"
+                <FormInputField name="personalInformation.address.street"
                                 i18nLabel="resume-edit.section.personal-information.field.address.street.label"
                                 placeholder={user.address.street}/>
-                <FormInputField name="address.city"
+                <FormInputField name="personalInformation.address.city"
                                 placeholder={user.address.city}
                                 className="self-end"/>
-                <FormInputField name="address.postalCode"
+                <FormInputField name="personalInformation.address.postalCode"
                                 placeholder={user.address.postalCode}/>
-                <FormLanguageSelectField name="address.country"
+                <FormLanguageSelectField name="personalInformation.address.country"
                                          placeholder={user.address.country}/>
 
-                <FormInputField name="webUrl"
+                <FormInputField name="personalInformation.webUrl"
                                 i18nLabel="resume-edit.section.personal-information.field.web-url.label"
                                 placeholder={user.webUrl?.href}
                                 className="col-span-2"/>
 
-                <FormTextareaField name="profile"
+                <FormTextareaField name="personalInformation.profile"
                                    i18nLabel="resume-edit.section.personal-information.field.profile.label"
                                    className="col-span-2"/>
               </div>
             </ResumeSection>
+            <ResumeSection titleMessageId="resume-edit.section.work-experience.section-title" icon={IconBriefcase2}>
+              <WorkExperienceSection/>
+            </ResumeSection>
+            {/* TODO(testing): temporary - remove */}
+            <FormButton type="submit">
+              Submit
+            </FormButton>
           </Form>
         </div>
       </ResizablePanel>
