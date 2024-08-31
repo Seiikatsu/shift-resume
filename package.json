@@ -120,7 +120,8 @@
     "node": ">=20.0.0"
   },
   "lint-staged": {
-    "*{ts,tsx}": "eslint --cache --cache-location ./node_modules/.cache/eslint"
+    "*": "prettier --cache --write",
+    "*.{ts,tsx}": "eslint --cache --cache-location ./node_modules/.cache/eslint"
   },
   "packageManager": "pnpm@9.9.0"
 }
