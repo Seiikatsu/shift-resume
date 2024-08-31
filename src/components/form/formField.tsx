@@ -1,7 +1,9 @@
-import {cloneElement, FC} from 'react';
+import type { FC} from 'react';
+import {cloneElement} from 'react';
 import {useFormContext} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {ControlledFormFieldProps, FormFieldProps} from '~/components/form/types';
+
+import type {ControlledFormFieldProps, FormFieldProps} from '~/components/form/types';
 import {
   FormControl,
   FormDescription,

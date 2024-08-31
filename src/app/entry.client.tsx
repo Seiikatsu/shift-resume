@@ -6,10 +6,12 @@ import {startTransition, StrictMode} from 'react';
 import {hydrateRoot} from 'react-dom/client';
 import {I18nextProvider, initReactI18next} from 'react-i18next';
 import {getInitialNamespaces} from 'remix-i18next/client';
+
 import i18n from '~/app/i18n/i18n';
 
-async function hydrate() {
-  await i18next
+function hydrate() {
+  // eslint-disable-next-line import-x/no-named-as-default-member
+  i18next
     .use(initReactI18next)
     .use(LanguageDetector)
     .use(Backend)
@@ -32,21 +34,25 @@ async function hydrate() {
         // on the browser, so we disable it
         caches: [],
       },
+    })
+    .then(() => {
+      startTransition(() => {
+        hydrateRoot(
+          document,
+          <I18nextProvider i18n={i18next}>
+            <StrictMode>
+              <RemixBrowser/>
+            </StrictMode>
+          </I18nextProvider>,
+        );
+      });
+    })
+    .catch((error: unknown) => {
+      console.error('Failed to initialize i18next:', error);
     });
-
-  startTransition(() => {
-    hydrateRoot(
-      document,
-      <I18nextProvider i18n={i18next}>
-        <StrictMode>
-          <RemixBrowser/>
-        </StrictMode>
-      </I18nextProvider>,
-    );
-  });
 }
 
-if (window.requestIdleCallback) {
+if (typeof window.requestIdleCallback === 'function') {
   window.requestIdleCallback(hydrate);
 } else {
   // Safari doesn't support requestIdleCallback

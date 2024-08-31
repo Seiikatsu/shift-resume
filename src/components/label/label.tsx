@@ -1,6 +1,8 @@
-import {FC, memo} from 'react';
+import type {FC} from 'react';
+import { memo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {LabelProps} from '~/components/label/types';
+
+import type {LabelProps} from '~/components/label/types';
 import {Label as ShadcnLabel} from '~/components/shadcn/label';
 
 export const Label: FC<LabelProps> = memo(({messageId, ...rest}) => {

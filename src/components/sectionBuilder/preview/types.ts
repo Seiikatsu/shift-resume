@@ -1,4 +1,4 @@
-import {SectionField} from 'src/components/sectionBuilder/fieldRenderer';
+import type {SectionField} from 'src/components/sectionBuilder/fieldRenderer';
 
 export type Section = {
   id: string;

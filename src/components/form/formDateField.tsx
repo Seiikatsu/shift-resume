@@ -1,11 +1,13 @@
 import {format} from 'date-fns';
 import {CalendarIcon} from 'lucide-react';
 import {DateTime} from 'luxon';
-import {FC, useCallback} from 'react';
+import type {FC} from 'react';
+import { useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
+
 import {cn} from '~/common/utils';
 import {FormField} from '~/components/form/formField';
-import {ControlledFormFieldProps, PredefinedFormFieldProps} from '~/components/form/types';
+import type {ControlledFormFieldProps, PredefinedFormFieldProps} from '~/components/form/types';
 import {Calendar} from '~/components/shadcn/calendar';
 import {Popover, PopoverContent, PopoverTrigger} from '~/components/shadcn/popover';
 import {Button} from '~/components/shadcn/ui/button';
@@ -63,7 +65,7 @@ export const FormDateField: FC<PredefinedFormFieldProps> = (props) => {
         </PopoverContent>
       </Popover>
     );
-  }, [props, t]);
+  }, [t]);
 
   return (
     <FormField {...props}

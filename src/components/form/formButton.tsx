@@ -1,7 +1,8 @@
-import {FC} from 'react';
+import type {FC} from 'react';
 import {useFormState} from 'react-hook-form';
+
 import {Button} from '~/components/button';
-import {FormButtonProps} from '~/components/form/types';
+import type {FormButtonProps} from '~/components/form/types';
 import {Typography} from '~/components/typographqy';
 
 export const FormButton: FC<FormButtonProps> = ({type, variant, children}) => {

@@ -1,5 +1,6 @@
 import {createContext} from 'react';
-import {SectionField} from 'src/components/sectionBuilder/fieldRenderer';
+
+import type {SectionField} from 'src/components/sectionBuilder/fieldRenderer';
 
 type SectionContextType = {
   fields: SectionField[];
@@ -8,6 +9,7 @@ type SectionContextType = {
   updateLabel: (fieldId: string, label: string) => void;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {
 };
 

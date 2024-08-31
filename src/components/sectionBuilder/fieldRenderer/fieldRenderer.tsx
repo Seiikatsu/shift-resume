@@ -1,11 +1,14 @@
-import React, {FC} from 'react';
+import type {FC} from 'react';
+import React from 'react';
+
 import {FieldLabel} from '~/components/sectionBuilder/fieldRenderer/fieldLabel';
 import {FieldWrapper} from '~/components/sectionBuilder/fieldRenderer/fieldWrapper';
 import {ImageField} from '~/components/sectionBuilder/fieldRenderer/imageField';
 import {InputField} from '~/components/sectionBuilder/fieldRenderer/inputField';
 import {NumberField} from '~/components/sectionBuilder/fieldRenderer/numberField';
 import {RichTextField} from '~/components/sectionBuilder/fieldRenderer/richTextField';
-import {ContentField} from './types';
+
+import type {ContentField} from './types';
 
 export const FieldRenderer: FC<ContentField> = (props) => {
   let element = null;

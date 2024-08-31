@@ -1,4 +1,4 @@
-import {LogContext} from '@seiikatsu/logger/dist/logger';
+import type {LogContext} from '@seiikatsu/logger/dist/logger';
 
 export const unknownCatchToPayload = (e: unknown, msg: string): LogContext => {
   if (e instanceof Error) {

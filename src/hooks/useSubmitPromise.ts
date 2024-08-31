@@ -1,10 +1,14 @@
-import {SubmitOptions, useActionData, useNavigation, useSubmit} from '@remix-run/react';
+import type {SubmitOptions} from '@remix-run/react';
+import { useActionData, useNavigation, useSubmit} from '@remix-run/react';
 import type {SerializeFrom} from '@remix-run/server-runtime';
 import {useCallback, useEffect, useMemo} from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
+
 function deferred<T>() {
-  let resolve: (value: T | PromiseLike<T>) => void = () => {};
-  let reject: (reason?: any) => void = () => {};
+  let resolve: (value: T | PromiseLike<T>) => void = noop;
+  let reject: (reason?: unknown) => void = noop;
 
   const promise = new Promise<T>((res, rej) => {
     resolve = res;
@@ -24,17 +28,15 @@ type SubmitTarget =
   | HTMLInputElement
   | FormData
   | URLSearchParams
-  | {
-  [name: string]: string;
-}
+  | Record<string, string>
   | null;
 
 /**
  * @link https://github.com/remix-run/remix/discussions/5023
  */
 export const useSubmitPromise = <
-  T extends any,
-  P = T extends (...args: any) => any ? Awaited<ReturnType<T>> : T,
+  // T extends unknown,
+  P = unknown/* = T extends (...args: unknown[]) => unknown ? Awaited<ReturnType<T>> : T,*/
 >() => {
   const submit = useSubmit();
   const navigation = useNavigation();

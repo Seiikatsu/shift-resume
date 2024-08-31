@@ -1,6 +1,9 @@
-import React, {FC} from 'react';
+import type {FC} from 'react';
+import React from 'react';
+
 import {DraggableField} from '~/components/sectionBuilder/dnd/draggableField';
-import {ContentField, FieldRenderer} from '~/components/sectionBuilder/fieldRenderer';
+import type {ContentField} from '~/components/sectionBuilder/fieldRenderer';
+import { FieldRenderer} from '~/components/sectionBuilder/fieldRenderer';
 
 export const DraggableContentField: FC<ContentField> = (props) => {
   return (

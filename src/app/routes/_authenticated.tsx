@@ -1,8 +1,11 @@
-import {json, LoaderFunctionArgs} from '@remix-run/node';
+import type { LoaderFunctionArgs} from '@remix-run/node';
+import {json} from '@remix-run/node';
 import {Link, Outlet, useLoaderData} from '@remix-run/react';
 import {IconChevronsLeft, IconSettings, IconUser} from '@tabler/icons-react';
-import {ComponentType, FC, useEffect, useState} from 'react';
+import type {ComponentType, FC} from 'react';
+import { useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+
 import {cn} from '~/common/utils';
 import {Button} from '~/components/shadcn/button';
 import {ScrollArea} from '~/components/shadcn/scroll-area';
@@ -46,7 +49,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 export default function AuthenticatedLayout() {
   const {message} = useLoaderData<typeof loader>();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const toggleSidebar = () => { setIsSidebarOpen(!isSidebarOpen); };
 
   const {t} = useTranslation();
   const {toast} = useToast();

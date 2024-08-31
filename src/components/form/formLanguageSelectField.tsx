@@ -1,9 +1,12 @@
-import {countries, getEmojiFlag, TCountryCode} from 'countries-list';
-import {FC} from 'react';
+import type { TCountryCode} from 'countries-list';
+import {countries, getEmojiFlag} from 'countries-list';
+import type {FC} from 'react';
 import {useTranslation} from 'react-i18next';
+
 import {FormField} from '~/components/form/formField';
-import {PredefinedFormFieldProps} from '~/components/form/types';
-import {SearchableSelect, SearchableSelectOption} from '~/components/searchableSelect';
+import type {PredefinedFormFieldProps} from '~/components/form/types';
+import type { SearchableSelectOption} from '~/components/searchableSelect';
+import {SearchableSelect} from '~/components/searchableSelect';
 
 const languageValues: SearchableSelectOption<TCountryCode>[] = Object.entries(countries)
   .map(([code, country]) => ({

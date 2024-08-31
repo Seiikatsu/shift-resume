@@ -1,5 +1,6 @@
-import {FC} from 'react';
-import {ButtonProps, ButtonVariant} from '~/components/button/types';
+import type {FC} from 'react';
+
+import type {ButtonProps, ButtonVariant} from '~/components/button/types';
 import {Button as BaseButton, type ButtonProps as BaseButtonProps} from '~/components/shadcn/button';
 
 const VARIANT_MAP: Record<ButtonVariant, BaseButtonProps['variant']> = {

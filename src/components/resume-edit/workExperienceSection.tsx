@@ -1,26 +1,29 @@
 import {IconChevronDown, IconTrash} from '@tabler/icons-react';
 import {Controller, useFieldArray} from 'react-hook-form';
+
 import {cn} from '~/common/utils';
 import {FormInputField, FormTextareaField} from '~/components/form';
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from '~/components/shadcn/ui/collapsible';
 import {Typography} from '~/components/typographqy';
 
 export const WorkExperienceSection = () => {
-  const {fields, append, prepend, remove, swap, move, insert} = useFieldArray({
+  const {fields, append, remove} = useFieldArray({
     name: 'workExperience',
   });
   return (
     <div className="flex flex-col gap-4 w-full">
       {fields.map((field, index) => {
         return (
-          <Collapsible className="bg-secondary w-full rounded-md">
+          <Collapsible key={field.id} className="bg-secondary w-full rounded-md">
             <CollapsibleTrigger className="w-full p-4 flex items-center gap-4 group">
               <Controller name={`workExperience.${index}.company`}
                           render={({field: {value}}) => (
                             <Typography className="flex-1 text-sm" tag="p" fontWeight="light">{value}</Typography>
                           )}
               />
-              <IconTrash className="hidden group-data-[state=open]:block" size={20} onClick={() => remove(index)}/>
+              <IconTrash className="hidden group-data-[state=open]:block" size={20} onClick={() => {
+                remove(index);
+              }}/>
               {/* TODO(feat): implement reordering */}
               {/*<IconMenu2 className="block group-data-[state=open]:hidden" size={20}/>*/}
               <IconChevronDown
@@ -50,20 +53,22 @@ export const WorkExperienceSection = () => {
           </Collapsible>
         );
       })}
-      <div onClick={() => append({
-        company: '',
-        title: '',
-        city: '',
-        country: '',
-        from: '',
-        to: '',
-        description: '',
-      })}
+      <button onClick={() => {
+        append({
+          company: '',
+          title: '',
+          city: '',
+          country: '',
+          from: '',
+          to: '',
+          description: '',
+        });
+      }}
            className="border-2 border-dashed border-secondary w-full rounded-md h-8 flex justify-center items-center cursor-pointer hover:bg-secondary/25 transition ease duration-300">
         <Typography tag="p" className="text-sm">
           <Typography tag="span" messageId="resume-edit.section.work-experience.add-experience"/>
         </Typography>
-      </div>
+      </button>
     </div>
   );
 };

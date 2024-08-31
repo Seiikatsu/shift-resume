@@ -1,10 +1,11 @@
 import {Collection, Entity, EntityRepositoryType, OneToMany, Property} from '@mikro-orm/postgresql';
+
 import {AbstractBaseEntity} from '~/server/db/entities/abstractBaseEntity';
 import {DbResume} from '~/server/db/entities/dbResume';
 import {UserRepository} from '~/server/db/repository/userRepository';
 
 @Entity({tableName: 'users', repository: () => UserRepository})
-export class DbUser extends AbstractBaseEntity<DbUser> {
+export class DbUser extends AbstractBaseEntity {
   [EntityRepositoryType]?: UserRepository;
 
   @Property({type: 'varchar', length: 256, nullable: true})

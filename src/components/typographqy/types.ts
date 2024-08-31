@@ -1,4 +1,4 @@
-import {PropsWithChildren} from 'react';
+import type {PropsWithChildren} from 'react';
 
 export type TypographyTag = 'h1' | 'h2' | 'h3' | 'p' | 'span';
 

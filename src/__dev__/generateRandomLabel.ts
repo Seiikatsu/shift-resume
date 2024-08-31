@@ -1,4 +1,4 @@
-var nameList = [
+const nameList = [
   'Time', 'Past', 'Future', 'Dev',
   'Fly', 'Flying', 'Soar', 'Soaring', 'Power', 'Falling',
   'Fall', 'Jump', 'Cliff', 'Mountain', 'Rend', 'Red', 'Blue',

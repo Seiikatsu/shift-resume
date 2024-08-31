@@ -1,8 +1,9 @@
-import {FormEncType} from '@remix-run/react';
-import {PropsWithChildren, ReactElement} from 'react';
-import {ControllerRenderProps, DefaultValues, FieldValues} from 'react-hook-form';
-import {z} from 'zod';
-import {ButtonProps} from '~/components/button';
+import type {FormEncType} from '@remix-run/react';
+import type {PropsWithChildren, ReactElement} from 'react';
+import type {ControllerRenderProps, DefaultValues, FieldValues} from 'react-hook-form';
+import type {z} from 'zod';
+
+import type {ButtonProps} from '~/components/button';
 
 export type FormProps<T extends FieldValues> = PropsWithChildren<{
   schema: z.ZodSchema<T>;
@@ -13,6 +14,7 @@ export type FormProps<T extends FieldValues> = PropsWithChildren<{
   /**
    * Called after the form has been submitted.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   submittedHandler?: (result: any) => void;
 
   /**

@@ -1,6 +1,6 @@
 import {getEntityManager} from '~/server/db';
 import {DbResume} from '~/server/db/entities/dbResume';
-import {Resume} from '~/server/domain/resume';
+import {Resume} from '~/server/domain/resume/dto';
 
 type Input = {
   userId: string;

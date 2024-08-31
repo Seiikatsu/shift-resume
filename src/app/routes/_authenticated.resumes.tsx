@@ -1,7 +1,8 @@
-import {LoaderFunctionArgs} from '@remix-run/node';
+import type {LoaderFunctionArgs} from '@remix-run/node';
 import {Link, useLoaderData} from '@remix-run/react';
 import {IconPlus} from '@tabler/icons-react';
-import {FC, ReactNode} from 'react';
+import type {FC, ReactNode} from 'react';
+
 import {Typography} from '~/components/typographqy';
 import {resumeService} from '~/server/domain/resume';
 

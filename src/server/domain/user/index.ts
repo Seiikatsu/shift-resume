@@ -1,4 +1,5 @@
-import {DeepPartial} from 'utility-types';
+import type {DeepPartial} from 'utility-types';
+
 import {getEntityManager} from '~/server/db';
 import {DbUser} from '~/server/db/entities/dbUser';
 import {countriesUnion} from '~/server/domain/common/dto/countries';
@@ -30,7 +31,7 @@ export const userService = {
       email: dbUser.email,
       phone: dbUser.phone ?? null,
 
-      nationality: dbUser.nationality === null ? null : countriesUnion.parse(dbUser.nationality),
+      nationality: dbUser.nationality === undefined ? null : countriesUnion.parse(dbUser.nationality),
 
       address: {
         street: dbUser.streetName,

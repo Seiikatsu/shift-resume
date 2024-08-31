@@ -16,7 +16,7 @@ const envSchema = z.object({
   .transform(({npm_package_version, ...rest}) => {
     return {
       ...rest,
-      VERSION: npm_package_version,
+      APP_VERSION: npm_package_version,
     }
   });
 

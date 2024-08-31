@@ -1,19 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-return */
+import type {z} from 'zod';
+
 const KEY_SEPARATOR = '.';
 const IS_NUMBER_REGEX = /^\d+$/;
 
-const parse = (v: any) => {
+const tryParse = (v: unknown) => {
   try {
-    return JSON.parse(v);
-  } catch (e) {
+    if (typeof v === 'string') {
+      return JSON.parse(v);
+    }
+  } catch {
     return v;
   }
+  return v;
 };
 
-export const formDataToObject = (formData: FormData) => {
+export const formDataToObject = <T extends object>(formData: FormData, schema: z.Schema<T>): T | null => {
   const resultObject: any = {};
-  for (let [key, value] of formData) {
-    // let JSON.parse do the work for us - either we get typed values or not
-    const data = parse(value);
+  for (const [key, value] of formData) {
+    const data = tryParse(value);
 
     const keyParts = key.split(KEY_SEPARATOR);
 
@@ -48,15 +53,19 @@ export const formDataToObject = (formData: FormData) => {
     }
   }
 
-  return resultObject;
+  const result = schema.safeParse(resultObject);
+  if (result.success) {
+    return result.data;
+  }
+  return null;
 };
 
 export const createFormDataRecursive = (
-  data: Record<string, any>,
-  keyPrefix: string = '',
+  data?: Record<string, unknown>,
+  keyPrefix = '',
   formData: FormData = new FormData(),
 ): FormData => {
-  if (!data) {
+  if (data === undefined) {
     return formData;
   }
   for (const [key, value] of Object.entries(data)) {
@@ -67,11 +76,7 @@ export const createFormDataRecursive = (
     }
 
     if (value instanceof FileList) {
-      // for (let fileIndex = 0; fileIndex < value.length; fileIndex++) {
-      //   const file = value[fileIndex];
-      //   formData.append(formDataKey, file);
-      // }
-      for (let file of value) {
+      for (const file of value) {
         formData.append(formDataKey, file);
       }
       continue;
@@ -88,7 +93,7 @@ export const createFormDataRecursive = (
     }
 
     if (typeof value === 'object') {
-      createFormDataRecursive(value, formDataKey + KEY_SEPARATOR, formData);
+      createFormDataRecursive(value as Record<string, unknown>, formDataKey + KEY_SEPARATOR, formData);
       continue;
     }
 

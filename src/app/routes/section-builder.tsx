@@ -1,19 +1,21 @@
-import React, {ButtonHTMLAttributes, Dispatch, FC, SetStateAction, useCallback, useState} from 'react';
-import {AllFieldTypes, ContentField, GroupField} from 'src/components/sectionBuilder/fieldRenderer';
-import {Section, SectionPreview} from 'src/components/sectionBuilder/preview';
+import type {ButtonHTMLAttributes, Dispatch, FC, SetStateAction} from 'react';
+import React, {useCallback, useState} from 'react';
 import {v7} from 'uuid';
+
+import type {AllFieldTypes, ContentField, GroupField} from 'src/components/sectionBuilder/fieldRenderer';
+import type {Section} from 'src/components/sectionBuilder/preview';
+import {SectionPreview} from 'src/components/sectionBuilder/preview';
+import {generateRandomLabel} from '~/__dev__/generateRandomLabel';
 import {findField, getParents, promoteOrDemoteNode, reorderFields} from '~/components/sectionBuilder/dnd/utils';
 import {SectionPreviewContext} from '~/components/sectionBuilder/preview/context';
-import {generateRandomLabel} from '~/__dev__/generateRandomLabel';
-
 
 type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & {
   setSection: Dispatch<SetStateAction<Section>>;
   fieldType: AllFieldTypes;
-  additionalProps?: Record<any, any>;
+  additionalProps?: Record<string, unknown>;
 }
 
-const Button: FC<ButtonProps> = ({fieldType, setSection, additionalProps = {}, ...props}) => {
+const Button: FC<ButtonProps> = ({fieldType, setSection, additionalProps: _additionalProps = {}, ...props}) => {
   const onClick = useCallback(() => {
     setSection((prevState) => {
       let t: ContentField | GroupField;

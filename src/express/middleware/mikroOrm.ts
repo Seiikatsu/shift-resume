@@ -1,10 +1,11 @@
 import {RequestContext} from '@mikro-orm/postgresql';
-import {NextFunction, Request, Response} from 'express';
+import type {NextFunction, Request, Response} from 'express';
+
 import {logger} from '~/common/logger.server';
 import {unknownCatchToPayload} from '~/common/unknownCatchToPayload';
 import {getEntityManager} from '~/server/db';
 
-const bindEntityManager = async (req: Request, res: Response, next: NextFunction) => {
+const bindEntityManager = async (_req: Request, res: Response, next: NextFunction) => {
   async function nextWrapper() {
     // important to get the entity manager from the request context
     const localEm = RequestContext.getEntityManager();
@@ -27,7 +28,7 @@ const bindEntityManager = async (req: Request, res: Response, next: NextFunction
     if (localEm !== undefined) {
       // ensure to rollback failed transactions so they are closed
       localEm.rollback()
-        .catch((error) => {
+        .catch((error: unknown) => {
           logger.error(unknownCatchToPayload(error, 'Could not rollback transaction'));
         });
     }
@@ -38,7 +39,7 @@ const bindEntityManager = async (req: Request, res: Response, next: NextFunction
     if (localEm !== undefined) {
       // commit transactions at request end so everything that happened in the request is persisted
       localEm.commit()
-        .catch((error) => {
+        .catch((error: unknown) => {
           logger.error(unknownCatchToPayload(error, 'Could not commit transaction'));
         });
     }
@@ -47,7 +48,7 @@ const bindEntityManager = async (req: Request, res: Response, next: NextFunction
 
 export const mikroOrmMiddleware = (req: Request, res: Response, next: NextFunction) => {
   bindEntityManager(req, res, next)
-    .catch((error) => {
+    .catch((error: unknown) => {
       logger.error(unknownCatchToPayload(error, 'Could not attach entity manager to request context'));
       res.status(500)
         .send({error: 'Internal Server Error'});

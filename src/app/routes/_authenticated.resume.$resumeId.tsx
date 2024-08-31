@@ -1,8 +1,10 @@
-import {ActionFunctionArgs, LoaderFunctionArgs, redirect} from '@remix-run/node';
+import type {ActionFunctionArgs, LoaderFunctionArgs} from '@remix-run/node';
+import { redirect} from '@remix-run/node';
 import {useLoaderData} from '@remix-run/react';
 import {IconBriefcase2, IconUser} from '@tabler/icons-react';
 import {DateTime} from 'luxon';
 import {z} from 'zod';
+
 import {formDataToObject} from '~/common/formData';
 import {logger} from '~/common/logger.server';
 import {Form, FormButton, FormDateField, FormInputField, FormLanguageSelectField} from '~/components/form';
@@ -85,7 +87,7 @@ export const loader = async ({request, context, params}: LoaderFunctionArgs) => 
 };
 
 export const action = async ({request}: ActionFunctionArgs) => {
-  const resultObject = formDataToObject(await request.formData());
+  const resultObject = formDataToObject(await request.formData(), personalInformationSchema);
   logger.info({msg: 'Form data', data: resultObject});
 
   await new Promise((resolve) => setTimeout(resolve, 1000));

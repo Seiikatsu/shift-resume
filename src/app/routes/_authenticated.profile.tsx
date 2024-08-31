@@ -1,10 +1,11 @@
-import {ActionFunctionArgs, LoaderFunctionArgs} from '@remix-run/node';
+import type {ActionFunctionArgs, LoaderFunctionArgs} from '@remix-run/node';
 import {useLoaderData} from '@remix-run/react';
 import type {SerializeFrom} from '@remix-run/server-runtime';
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import {z} from 'zod';
 import {zfd} from 'zod-form-data';
+
 import {logger} from '~/common/logger.server';
 import {unknownCatchToPayload} from '~/common/unknownCatchToPayload';
 import {Form, FormButton, FormDateField, FormField, FormLanguageSelectField} from '~/components/form';
@@ -37,7 +38,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export const loader = async ({context}: LoaderFunctionArgs) => {
+export const loader = ({context}: LoaderFunctionArgs) => {
   const {user} = context;
 
   return {
@@ -50,13 +51,13 @@ export const loader = async ({context}: LoaderFunctionArgs) => {
     addressStreet: user.address.street,
     addressPostalCode: user.address.postalCode,
     addressCity: user.address.city,
-    addressCountry: user.address.country ?? undefined,
+    addressCountry: user.address.country,
     nationality: user.nationality ?? undefined,
   } satisfies FormValues;
 };
 
 export const action = async ({context, request}: ActionFunctionArgs): Promise<{ ok: boolean; messageId: string; }> => {
-  const schema = await zfd.formData(formSchema);
+  const schema = zfd.formData(formSchema);
   const formData = await request.formData();
   const result = schema.safeParse(formData);
   if (!result.success) {

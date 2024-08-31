@@ -1,7 +1,8 @@
 import {Check, ChevronsUpDown} from 'lucide-react';
 import * as React from 'react';
+
 import {cn} from '~/common/utils';
-import {SearchableSelectProps} from '~/components/searchableSelect/types';
+import type {SearchableSelectProps} from '~/components/searchableSelect/types';
 import {Button} from '~/components/shadcn/button';
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from '~/components/shadcn/command';
 import {Popover, PopoverContent, PopoverTrigger} from '~/components/shadcn/popover';

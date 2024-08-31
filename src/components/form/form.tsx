@@ -2,10 +2,12 @@ import {DevTool} from '@hookform/devtools';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {Form as RemixForm} from '@remix-run/react';
 import {useCallback} from 'react';
-import {FieldValues, useForm} from 'react-hook-form';
+import type {FieldValues} from 'react-hook-form';
+import { useForm} from 'react-hook-form';
 import {ClientOnly} from 'remix-utils/client-only';
+
 import {createFormDataRecursive} from '~/common/formData';
-import {FormProps} from '~/components/form/types';
+import type {FormProps} from '~/components/form/types';
 import {Form as ShadForm} from '~/components/shadcn/ui/form';
 import {useSubmitPromise} from '~/hooks/useSubmitPromise';
 
@@ -38,7 +40,7 @@ export function Form<T extends FieldValues = FieldValues>({
     if (typeof submittedHandler === 'function') {
       submittedHandler(result);
     }
-  }, [submit, submittedHandler]);
+  }, [encType, submit, submittedHandler]);
 
   const remixFormProps = {
     [submitMode]: form.handleSubmit(onSubmit),

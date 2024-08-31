@@ -1,4 +1,4 @@
-import {InitOptions} from 'i18next';
+import type {InitOptions} from 'i18next';
 
 export default {
   // This is the list of languages your application supports

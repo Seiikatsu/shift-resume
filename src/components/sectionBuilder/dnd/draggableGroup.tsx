@@ -1,13 +1,15 @@
-import {FC, useContext} from 'react';
+import type {FC} from 'react';
+import { useContext} from 'react';
 import {useDrop} from 'react-dnd';
+
 import {cn} from '~/common/utils';
 import {DraggableContentField} from '~/components/sectionBuilder/dnd/draggableContentField';
 import {DraggableField} from '~/components/sectionBuilder/dnd/draggableField';
 import {FieldLabel} from '~/components/sectionBuilder/fieldRenderer/fieldLabel';
 import {FieldWrapper} from '~/components/sectionBuilder/fieldRenderer/fieldWrapper';
-import {ContentField, GroupField} from '~/components/sectionBuilder/fieldRenderer/types';
-import {ItemTypes} from '~/components/sectionBuilder/preview';
+import type {ContentField, GroupField} from '~/components/sectionBuilder/fieldRenderer/types';
 import {SectionPreviewContext} from '~/components/sectionBuilder/preview/context';
+import {ItemTypes} from '~/components/sectionBuilder/preview/types';
 
 export const DraggableGroup: FC<GroupField> = ({id, label, type, fields}) => {
   const {promoteOrDemoteField} = useContext(SectionPreviewContext);

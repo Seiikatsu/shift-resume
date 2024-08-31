@@ -1,3 +1,5 @@
+import * as fs from 'node:fs';
+
 import {createRequestHandler, type RequestHandler} from '@remix-run/express';
 import type {AppLoadContext, ServerBuild} from '@remix-run/node';
 import {installGlobals} from '@remix-run/node';
@@ -5,8 +7,8 @@ import {ip as ipAddress} from 'address';
 import compression from 'compression';
 import express from 'express';
 import morgan from 'morgan';
-import * as fs from 'node:fs';
 import sourceMapSupport from 'source-map-support';
+
 import {env} from '~/common/env.server';
 import {logger} from '~/common/logger.server';
 import {mikroOrmMiddleware} from '~/express/middleware/mikroOrm';
@@ -18,13 +20,36 @@ const start = Date.now();
 let viteVersion = '';
 let remixVersion = '';
 if (env.NODE_ENV !== 'production') {
+  const getVersionFromPackageJson = (packageJson: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const pkgJson = JSON.parse(
+      fs.readFileSync(packageJson, 'utf-8')
+    );
+
+    if (typeof pkgJson !== 'object') {
+      return 'NOT_FOUND';
+    }
+
+    if (pkgJson === null) {
+      return 'NOT_FOUND';
+    }
+
+    if (!('version' in pkgJson)) {
+      return 'NOT_FOUND';
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const prop: unknown = pkgJson.version;
+    if (typeof prop !== 'string') {
+      return 'NOT_FOUND';
+    }
+
+    return prop;
+  };
+
   // get the vite version from the vite package.json
-  viteVersion = JSON.parse(
-    fs.readFileSync('node_modules/vite/package.json', 'utf-8')
-  ).version;
-  remixVersion = JSON.parse(
-    fs.readFileSync('node_modules/@remix-run/dev/package.json', 'utf-8')
-  ).version;
+  viteVersion = getVersionFromPackageJson('node_modules/vite/package.json');
+  remixVersion = getVersionFromPackageJson('node_modules/@remix-run/dev/package.json');
 }
 
 sourceMapSupport.install();
@@ -56,7 +81,8 @@ const getBuild = async (): Promise<ServerBuild> => {
       'virtual:remix/server-build'
     ) as Promise<ServerBuild>;
   }
-  // @ts-ignore (this file may or may not exist yet)
+  // @ts-expect-error (this file may or may not exist yet)
+  // eslint-disable-next-line import-x/no-unresolved
   return import('./server/index.js') as Promise<ServerBuild>;
 };
 
@@ -111,7 +137,7 @@ export async function startServerLifecycle() {
       return res.json({
         status: 'up',
         environment: env.NODE_ENV,
-        version: env.npm_package_version,
+        version: env.APP_VERSION,
       });
     }
   );
@@ -130,7 +156,7 @@ export async function startServerLifecycle() {
     );
   }
   // Everything else (like favicon.ico) is cached for an hour.
-  app.use(`${BASE_PATH}`, express.static('build/client', {maxAge: '1h'}));
+  app.use(BASE_PATH, express.static('build/client', {maxAge: '1h'}));
 
   app.use(
     morgan('tiny', {
@@ -157,10 +183,12 @@ export async function startServerLifecycle() {
 
   app.use((req, res, next) => {
     if (ignorePathPatterns.some((pattern) => pattern.test(req.path))) {
-      return next();
+      next();
+      return;
     }
-    return mikroOrmMiddleware(req, res, next);
+    mikroOrmMiddleware(req, res, next);
   });
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.all('*', await getRequestHandler());
 
   // Listen to uncaught exceptions that are unrecoverable.
@@ -176,7 +204,6 @@ export async function startServerLifecycle() {
   process.on('unhandledRejection', (reason, promise) => {
     logger.error({
       msg: 'UNHANDLED_REJECTION',
-      error: new Error(`Unhandled rejection at ${promise}. Reason: ${reason}`),
       promise,
       reason,
     });
@@ -187,7 +214,7 @@ export async function startServerLifecycle() {
   // run startup hooks
   await Promise.all([connectToDb()]);
 
-  const server = app.listen(port, async () => {
+  const server = app.listen(port, () => {
     const localUrl = `http://localhost:${port}`;
     let lanUrl: string | null = null;
     const localIp = ipAddress() ?? '';
@@ -223,16 +250,21 @@ export async function startServerLifecycle() {
   process.once('SIGINT', gracefulShutdown);
 
   /** Gracefully shutdown by cleaning up resources and stopping background jobs  */
-  async function gracefulShutdown() {
+  function gracefulShutdown() {
     logger.info('Server will shutdown');
-    await new Promise<void>((resolve) => {
+
+    new Promise<void>((resolve) => {
       server.close(() => {
         logger.info('Server cannot accept more connections');
         resolve();
       });
-    });
-    await disconnectDb();
-    process.exit(0);
+    })
+      .then(() => disconnectDb())
+      .then(() => process.exit(0))
+      .catch((err: unknown) => {
+        console.error(err);
+        process.exit(-1);
+      });
   }
 }
 

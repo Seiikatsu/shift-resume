@@ -1,5 +1,6 @@
 import type {EntityManager} from '@mikro-orm/postgresql';
 import {Seeder} from '@mikro-orm/seeder';
+
 import {DbResume} from '~/server/db/entities/dbResume';
 import {DbUser} from '~/server/db/entities/dbUser';
 

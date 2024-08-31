@@ -1,5 +1,7 @@
-import {IconChevronDown, TablerIcon} from '@tabler/icons-react';
-import {FC, PropsWithChildren} from 'react';
+import type { TablerIcon} from '@tabler/icons-react';
+import {IconChevronDown} from '@tabler/icons-react';
+import type {FC, PropsWithChildren} from 'react';
+
 import {cn} from '~/common/utils';
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from '~/components/shadcn/ui/collapsible';
 import {Typography} from '~/components/typographqy';

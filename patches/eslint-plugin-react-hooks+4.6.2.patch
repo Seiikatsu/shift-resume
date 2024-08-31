@@ -1,0 +1,121 @@
+diff --git a/node_modules/eslint-plugin-react-hooks/cjs/eslint-plugin-react-hooks.development.js b/node_modules/eslint-plugin-react-hooks/cjs/eslint-plugin-react-hooks.development.js
+index 441442f..5c1629a 100644
+--- a/node_modules/eslint-plugin-react-hooks/cjs/eslint-plugin-react-hooks.development.js
++++ b/node_modules/eslint-plugin-react-hooks/cjs/eslint-plugin-react-hooks.development.js
+@@ -563,7 +563,7 @@ var RulesOfHooks = {
+                 if (cycled) {
+                   context.report({
+                     node: hook,
+-                    message: "React Hook \"" + context.getSource(hook) + "\" may be executed " + 'more than once. Possibly because it is called in a loop. ' + 'React Hooks must be called in the exact same order in ' + 'every component render.'
++                    message: "React Hook \"" + context.sourceCode.getText(hook) + "\" may be executed " + 'more than once. Possibly because it is called in a loop. ' + 'React Hooks must be called in the exact same order in ' + 'every component render.'
+                   });
+                 } // If this is not a valid code path for React hooks then we need to
+                 // log a warning for every hook in this code path.
+@@ -578,7 +578,7 @@ var RulesOfHooks = {
+                   //
+                   // Special case when we think there might be an early return.
+                   if (!cycled && pathsFromStartToEnd !== allPathsFromStartToEnd) {
+-                    var message = "React Hook \"" + context.getSource(hook) + "\" is called " + 'conditionally. React Hooks must be called in the exact ' + 'same order in every component render.' + (possiblyHasEarlyReturn ? ' Did you accidentally call a React Hook after an' + ' early return?' : '');
++                    var message = "React Hook \"" + context.sourceCode.getText(hook) + "\" is called " + 'conditionally. React Hooks must be called in the exact ' + 'same order in every component render.' + (possiblyHasEarlyReturn ? ' Did you accidentally call a React Hook after an' + ' early return?' : '');
+                     context.report({
+                       node: hook,
+                       message: message
+@@ -586,7 +586,7 @@ var RulesOfHooks = {
+                   }
+                 } else if (codePathNode.parent && (codePathNode.parent.type === 'MethodDefinition' || codePathNode.parent.type === 'ClassProperty') && codePathNode.parent.value === codePathNode) {
+                   // Custom message for hooks inside a class
+-                  var _message = "React Hook \"" + context.getSource(hook) + "\" cannot be called " + 'in a class component. React Hooks must be called in a ' + 'React function component or a custom React Hook function.';
++                  var _message = "React Hook \"" + context.sourceCode.getText(hook) + "\" cannot be called " + 'in a class component. React Hooks must be called in a ' + 'React function component or a custom React Hook function.';
+ 
+                   context.report({
+                     node: hook,
+@@ -594,7 +594,7 @@ var RulesOfHooks = {
+                   });
+                 } else if (codePathFunctionName) {
+                   // Custom message if we found an invalid function name.
+-                  var _message2 = "React Hook \"" + context.getSource(hook) + "\" is called in " + ("function \"" + context.getSource(codePathFunctionName) + "\" ") + 'that is neither a React function component nor a custom ' + 'React Hook function.' + ' React component names must start with an uppercase letter.' + ' React Hook names must start with the word "use".';
++                  var _message2 = "React Hook \"" + context.sourceCode.getText(hook) + "\" is called in " + ("function \"" + context.sourceCode.getText(codePathFunctionName) + "\" ") + 'that is neither a React function component nor a custom ' + 'React Hook function.' + ' React component names must start with an uppercase letter.' + ' React Hook names must start with the word "use".';
+ 
+                   context.report({
+                     node: hook,
+@@ -602,7 +602,7 @@ var RulesOfHooks = {
+                   });
+                 } else if (codePathNode.type === 'Program') {
+                   // These are dangerous if you have inline requires enabled.
+-                  var _message3 = "React Hook \"" + context.getSource(hook) + "\" cannot be called " + 'at the top level. React Hooks must be called in a ' + 'React function component or a custom React Hook function.';
++                  var _message3 = "React Hook \"" + context.sourceCode.getText(hook) + "\" cannot be called " + 'at the top level. React Hooks must be called in a ' + 'React function component or a custom React Hook function.';
+ 
+                   context.report({
+                     node: hook,
+@@ -615,7 +615,7 @@ var RulesOfHooks = {
+                   // enough in the common case that the incorrect message in
+                   // uncommon cases doesn't matter.
+                   if (isSomewhereInsideComponentOrHook) {
+-                    var _message4 = "React Hook \"" + context.getSource(hook) + "\" cannot be called " + 'inside a callback. React Hooks must be called in a ' + 'React function component or a custom React Hook function.';
++                    var _message4 = "React Hook \"" + context.sourceCode.getText(hook) + "\" cannot be called " + 'inside a callback. React Hooks must be called in a ' + 'React function component or a custom React Hook function.';
+ 
+                     context.report({
+                       node: hook,
+@@ -760,7 +760,7 @@ var ExhaustiveDeps = {
+       context.report(problem);
+     }
+ 
+-    var scopeManager = context.getSourceCode().scopeManager; // Should be shared between visitors.
++    var scopeManager = context.sourceCode.scopeManager; // Should be shared between visitors.
+ 
+     var setStateCallSites = new WeakMap();
+     var stateVariables = new WeakSet();
+@@ -1183,7 +1183,7 @@ var ExhaustiveDeps = {
+         staleAssignments.add(key);
+         reportProblem({
+           node: writeExpr,
+-          message: "Assignments to the '" + key + "' variable from inside React Hook " + (context.getSource(reactiveHook) + " will be lost after each ") + "render. To preserve the value over time, store it in a useRef " + "Hook and keep the mutable value in the '.current' property. " + "Otherwise, you can move this variable directly inside " + (context.getSource(reactiveHook) + ".")
++          message: "Assignments to the '" + key + "' variable from inside React Hook " + (context.sourceCode.getText(reactiveHook) + " will be lost after each ") + "render. To preserve the value over time, store it in a useRef " + "Hook and keep the mutable value in the '.current' property. " + "Otherwise, you can move this variable directly inside " + (context.sourceCode.getText(reactiveHook) + ".")
+         });
+       } // Remember which deps are stable and report bad usage first.
+ 
+@@ -1282,7 +1282,7 @@ var ExhaustiveDeps = {
+         // the user this in an error.
+         reportProblem({
+           node: declaredDependenciesNode,
+-          message: "React Hook " + context.getSource(reactiveHook) + " was passed a " + 'dependency list that is not an array literal. This means we ' + "can't statically verify whether you've passed the correct " + 'dependencies.'
++          message: "React Hook " + context.sourceCode.getText(reactiveHook) + " was passed a " + 'dependency list that is not an array literal. This means we ' + "can't statically verify whether you've passed the correct " + 'dependencies.'
+         });
+       } else {
+         declaredDependenciesNode.elements.forEach(function (declaredDependencyNode) {
+@@ -1295,7 +1295,7 @@ var ExhaustiveDeps = {
+           if (declaredDependencyNode.type === 'SpreadElement') {
+             reportProblem({
+               node: declaredDependencyNode,
+-              message: "React Hook " + context.getSource(reactiveHook) + " has a spread " + "element in its dependency array. This means we can't " + "statically verify whether you've passed the " + 'correct dependencies.'
++              message: "React Hook " + context.sourceCode.getText(reactiveHook) + " has a spread " + "element in its dependency array. This means we can't " + "statically verify whether you've passed the " + 'correct dependencies.'
+             });
+             return;
+           } // Try to normalize the declared dependency. If we can't then an error
+@@ -1323,7 +1323,7 @@ var ExhaustiveDeps = {
+               } else {
+                 reportProblem({
+                   node: declaredDependencyNode,
+-                  message: "React Hook " + context.getSource(reactiveHook) + " has a " + "complex expression in the dependency array. " + 'Extract it to a separate variable so it can be statically checked.'
++                  message: "React Hook " + context.sourceCode.getText(reactiveHook) + " has a " + "complex expression in the dependency array. " + 'Extract it to a separate variable so it can be statically checked.'
+                 });
+               }
+ 
+@@ -1556,7 +1556,7 @@ var ExhaustiveDeps = {
+         }
+ 
+         if (isPropsOnlyUsedInMembers) {
+-          extraWarning = " However, 'props' will change when *any* prop changes, so the " + "preferred fix is to destructure the 'props' object outside of " + ("the " + reactiveHookName + " call and refer to those specific props ") + ("inside " + context.getSource(reactiveHook) + ".");
++          extraWarning = " However, 'props' will change when *any* prop changes, so the " + "preferred fix is to destructure the 'props' object outside of " + ("the " + reactiveHookName + " call and refer to those specific props ") + ("inside " + context.sourceCode.getText(reactiveHook) + ".");
+         }
+       }
+ 
+@@ -1701,7 +1701,7 @@ var ExhaustiveDeps = {
+ 
+       reportProblem({
+         node: declaredDependenciesNode,
+-        message: "React Hook " + context.getSource(reactiveHook) + " has " + ( // To avoid a long message, show the next actionable item.
++        message: "React Hook " + context.sourceCode.getText(reactiveHook) + " has " + ( // To avoid a long message, show the next actionable item.
+         getWarningMessage(missingDependencies, 'a', 'missing', 'include') || getWarningMessage(unnecessaryDependencies, 'an', 'unnecessary', 'exclude') || getWarningMessage(duplicateDependencies, 'a', 'duplicate', 'omit')) + extraWarning,
+         suggest: [{
+           desc: "Update the dependencies array to be: [" + suggestedDeps.map(formatDependency).join(', ') + "]",

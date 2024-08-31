@@ -1,9 +1,11 @@
 import {IconGripVertical} from '@tabler/icons-react';
-import React, {FC, PropsWithChildren, useContext, useRef} from 'react';
+import type {FC, PropsWithChildren} from 'react';
+import React, {useContext, useRef} from 'react';
 import {useDrag, useDrop} from 'react-dnd';
-import {AllFieldTypes} from '~/components/sectionBuilder/fieldRenderer';
-import {ItemTypes} from '~/components/sectionBuilder/preview';
+
+import type {AllFieldTypes} from '~/components/sectionBuilder/fieldRenderer';
 import {SectionPreviewContext} from '~/components/sectionBuilder/preview/context';
+import {ItemTypes} from '~/components/sectionBuilder/preview/types';
 
 type DragObject = {
   id: string;
@@ -50,10 +52,6 @@ export const DraggableField: FC<PropsWithChildren<DragObject>> = ({id, type, chi
         return;
       }
 
-      const hoverRect = ref.current.getBoundingClientRect();
-
-      const hoverMiddleY =
-        (hoverRect.bottom - hoverRect.top) / 2;
       // Determine mouse position
       const clientOffset = monitor.getClientOffset();
 

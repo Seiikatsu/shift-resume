@@ -1,4 +1,4 @@
-import {GroupField, SectionField} from '~/components/sectionBuilder/fieldRenderer';
+import type {GroupField, SectionField} from '~/components/sectionBuilder/fieldRenderer';
 
 const findItemAndParentById = (data: SectionField[], id: string, parent: GroupField | null = null): {
   item: SectionField;
@@ -8,7 +8,7 @@ const findItemAndParentById = (data: SectionField[], id: string, parent: GroupFi
     if (item.id === id) {
       return {item, parent};
     }
-    if (item.type === 'group' && item.fields) {
+    if (item.type === 'group') {
       const result = findItemAndParentById(item.fields, id, item);
       if (result) {
         return result;
@@ -20,7 +20,7 @@ const findItemAndParentById = (data: SectionField[], id: string, parent: GroupFi
 
 export const findField = (data: SectionField[], id: string): SectionField | null => {
   return findItemAndParentById(data, id)?.item ?? null;
-}
+};
 
 export const getParents = (data: SectionField[], id1: string, id2: string): [GroupField | null, GroupField | null] => {
   const parent1 = findItemAndParentById(data, id1)?.parent;
@@ -38,7 +38,7 @@ export const reorderFields = (data: SectionField[], id1: string, id2: string) =>
   const parentInfo = findItemAndParentById(data, id1);
   const parent = parentInfo?.parent;
 
-  if (parent && parent.fields) {
+  if (parent) {
     const items = parent.fields;
     const index1 = items.findIndex(item => item.id === id1);
     const index2 = items.findIndex(item => item.id === id2);
@@ -71,7 +71,7 @@ export function promoteOrDemoteNode(data: SectionField[], idToMove: string, targ
 
   if (itemToMove) {
     // Remove from old parent
-    if (oldParent && oldParent.fields) {
+    if (oldParent) {
       oldParent.fields = oldParent.fields.filter(item => item.id !== idToMove);
     } else {
       // Remove from top level

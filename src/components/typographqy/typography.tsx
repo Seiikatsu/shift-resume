@@ -1,7 +1,9 @@
-import {createElement, FC, useMemo} from 'react';
+import type { FC} from 'react';
+import {createElement, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
+
 import {cn} from '~/common/utils';
-import {
+import type {
   TypographyAlign,
   TypographyLinePlacement,
   TypographyProps,
@@ -55,7 +57,7 @@ export const Typography: FC<TypographyProps> = ({
                                                   className,
                                                   children,
                                                 }) => {
-  let {t} = useTranslation(undefined);
+  const {t} = useTranslation(undefined);
 
   const memorizedClassName = useMemo(() => {
     return cn(
@@ -67,11 +69,11 @@ export const Typography: FC<TypographyProps> = ({
       muted && 'text-muted',
       className
     );
-  }, [tag, variant, fontWeight, italic, linePlacement, className]);
+  }, [tag, align, muted, variant, fontWeight, italic, linePlacement, className]);
 
   const content = useMemo(() => {
     return messageId ? t(messageId, {defaultValue: children}) : children;
-  }, [messageId, children]);
+  }, [t, messageId, children]);
 
   return createElement(tag, {
     className: memorizedClassName,
