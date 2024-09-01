@@ -1,6 +1,14 @@
-import { Entity, EntityRepositoryType, ManyToOne, Property } from '@mikro-orm/postgresql';
+import {
+  Collection,
+  Entity,
+  EntityRepositoryType,
+  ManyToOne,
+  OneToMany,
+  Property,
+} from '@mikro-orm/postgresql';
 
 import { AbstractBaseEntity } from '~/server/db/entities/abstractBaseEntity';
+import { DbResumeSection } from '~/server/db/entities/DbResumeSection';
 import type { DbUser } from '~/server/db/entities/dbUser';
 import { ResumeRepository } from '~/server/db/repository/resumeRepository';
 
@@ -13,4 +21,7 @@ export class DbResume extends AbstractBaseEntity {
 
   @ManyToOne('DbUser')
   owner!: DbUser;
+
+  @OneToMany(() => DbResumeSection, (section) => section.resume)
+  sections = new Collection<DbResumeSection>(this);
 }

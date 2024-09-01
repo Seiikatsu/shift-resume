@@ -1,7 +1,9 @@
-import { Validated } from 'validated-extendable';
 import { z } from 'zod';
 
-const resumeSchema = z.object({
+import { personalInformationSection } from '~/server/domain/resume/dto/personalInformationSection';
+import { workExperience } from '~/server/domain/resume/dto/workExperience';
+
+export const resumeMetadataSchema = z.object({
   id: z.string().uuid(),
   owner: z.string().uuid(),
 
@@ -11,4 +13,19 @@ const resumeSchema = z.object({
   updatedAt: z.coerce.date(),
 });
 
-export class Resume extends Validated(resumeSchema) {}
+export type ResumeMetadata = z.infer<typeof resumeMetadataSchema>;
+
+export const resumeSchema = resumeMetadataSchema.extend({
+  id: z.string().uuid(),
+  owner: z.string().uuid(),
+
+  title: z.string(),
+
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+
+  personalInformation: personalInformationSection.nullable(),
+  workExperience: z.array(workExperience).nullable(),
+});
+
+export type Resume = z.infer<typeof resumeSchema>;

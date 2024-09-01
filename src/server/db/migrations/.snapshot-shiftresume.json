@@ -184,7 +184,13 @@
       ],
       "checks": [],
       "foreignKeys": {},
-      "nativeEnums": {}
+      "nativeEnums": {
+        "resume_section_type": {
+          "name": "resume_section_type",
+          "schema": "public",
+          "items": ["PERSONAL_INFORMATION", "WORK_EXPERIENCE", "CUSTOM"]
+        }
+      }
     },
     {
       "columns": {
@@ -286,8 +292,122 @@
           "updateRule": "cascade"
         }
       },
-      "nativeEnums": {}
+      "nativeEnums": {
+        "resume_section_type": {
+          "name": "resume_section_type",
+          "schema": "public",
+          "items": ["PERSONAL_INFORMATION", "WORK_EXPERIENCE", "CUSTOM"]
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "resume_id": {
+          "name": "resume_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "type": {
+          "name": "type",
+          "type": "resume_section_type",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "nativeEnumName": "resume_section_type",
+          "enumItems": ["PERSONAL_INFORMATION", "WORK_EXPERIENCE", "CUSTOM"],
+          "mappedType": "enum"
+        },
+        "content": {
+          "name": "content",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "json"
+        }
+      },
+      "name": "resume_sections",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "resume_sections_pkey",
+          "columnNames": ["id"],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "resume_sections_resume_id_foreign": {
+          "constraintName": "resume_sections_resume_id_foreign",
+          "columnNames": ["resume_id"],
+          "localTableName": "public.resume_sections",
+          "referencedColumnNames": ["id"],
+          "referencedTableName": "public.resumes",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {
+        "resume_section_type": {
+          "name": "resume_section_type",
+          "schema": "public",
+          "items": ["PERSONAL_INFORMATION", "WORK_EXPERIENCE", "CUSTOM"]
+        }
+      }
     }
   ],
-  "nativeEnums": {}
+  "nativeEnums": {
+    "resume_section_type": {
+      "name": "resume_section_type",
+      "schema": "public",
+      "items": ["PERSONAL_INFORMATION", "WORK_EXPERIENCE", "CUSTOM"]
+    }
+  }
 }

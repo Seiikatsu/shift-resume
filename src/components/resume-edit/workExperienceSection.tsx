@@ -2,7 +2,12 @@ import { IconChevronDown, IconTrash } from '@tabler/icons-react';
 import { Controller, useFieldArray } from 'react-hook-form';
 
 import { cn } from '~/common/utils';
-import { FormDateField, FormInputField, FormTextareaField } from '~/components/form';
+import {
+  FormDateField,
+  FormInputField,
+  FormLanguageSelectField,
+  FormTextareaField,
+} from '~/components/form';
 import {
   Collapsible,
   CollapsibleContent,
@@ -60,7 +65,7 @@ export const WorkExperienceSection = () => {
                   name={`workExperience.${index}.city`}
                   i18nLabel="resume-edit.section.work-experience.field.city.label"
                 />
-                <FormInputField
+                <FormLanguageSelectField
                   name={`workExperience.${index}.country`}
                   i18nLabel="resume-edit.section.work-experience.field.country.label"
                 />
@@ -84,15 +89,7 @@ export const WorkExperienceSection = () => {
       })}
       <button
         onClick={() => {
-          append({
-            company: '',
-            title: '',
-            city: '',
-            country: '',
-            from: '',
-            to: '',
-            description: '',
-          });
+          append({});
         }}
         className="border-2 border-dashed border-secondary w-full rounded-md h-8 flex justify-center items-center cursor-pointer hover:bg-secondary/25 transition ease duration-300"
       >

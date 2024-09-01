@@ -51,10 +51,8 @@
       "personal-information": {
         "section-title": "Personal Information",
         "field": {
-          "address": {
-            "street": {
-              "label": "Address"
-            }
+          "street": {
+            "label": "Address"
           },
           "birthday": {
             "label": "Birthday"
@@ -74,7 +72,7 @@
           "phone": {
             "label": "Phone"
           },
-          "profile": {
+          "description": {
             "label": "Profile"
           },
           "show-avatar": {

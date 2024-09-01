@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { anyToDate, dateToIso8601 } from '~/common/dateUtils';
 import { cn } from '~/common/utils';
 import { DatePicker } from '~/components/datePicker';
 import { FormField } from '~/components/form/formField';
@@ -18,12 +19,7 @@ export const FormDateField: FC<PredefinedFormFieldProps> = (props) => {
 
   const componentFactory = useCallback(
     (field: ControlledFormFieldProps) => {
-      let value: Date | undefined = undefined;
-      if (field.value instanceof Date) {
-        value = field.value;
-      } else if (typeof field.value === 'string' && field.value.trim().length > 0) {
-        value = DateTime.fromFormat(field.value, 'yyyy-MM-dd').toJSDate();
-      }
+      const value: Date | undefined = anyToDate(field.value);
 
       let displayedValue: string;
       if (value) {
@@ -60,7 +56,10 @@ export const FormDateField: FC<PredefinedFormFieldProps> = (props) => {
               mode="single"
               defaultMonth={value}
               selected={value}
-              onSelect={field.onChange}
+              onSelect={(e) => {
+                // instead of storing the date object, we store the iso8601 string (is possible)
+                field.onChange(e instanceof Date ? dateToIso8601(e) : e);
+              }}
               initialFocus
             />
           </PopoverContent>

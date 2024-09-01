@@ -1,12 +1,13 @@
 import { getEntityManager } from '~/server/db';
 import { DbResume } from '~/server/db/entities/dbResume';
-import { Resume } from '~/server/domain/resume/dto';
+import type { ResumeMetadata } from '~/server/domain/resume/dto';
+import { resumeMetadataSchema } from '~/server/domain/resume/dto';
 
 type Input = {
   userId: string;
 };
 
-type Output = Resume[];
+type Output = ResumeMetadata[];
 
 export const userResumes = async ({ userId }: Input): Promise<Output> => {
   const resumeRepository = (await getEntityManager()).getRepository(DbResume);
@@ -18,7 +19,7 @@ export const userResumes = async ({ userId }: Input): Promise<Output> => {
   });
 
   return dbResumes.map((dbResume) => {
-    return new Resume({
+    return resumeMetadataSchema.parse({
       id: dbResume.id,
       owner: dbResume.owner.id,
       title: dbResume.title,

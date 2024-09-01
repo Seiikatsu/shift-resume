@@ -6,59 +6,58 @@ import { DateTime } from 'luxon';
 import { z } from 'zod';
 
 import { formDataToObject } from '~/common/formData';
-import { logger } from '~/common/logger.server';
 import {
   Form,
   FormButton,
+  FormCheckboxField,
   FormDateField,
   FormInputField,
   FormLanguageSelectField,
 } from '~/components/form';
 import { FormTextareaField } from '~/components/form/formTextareaField';
-import { Label } from '~/components/label';
 import { ResumeSection, WorkExperienceSection } from '~/components/resume-edit';
 import { Avatar, AvatarFallback } from '~/components/shadcn/avatar';
-import { Checkbox } from '~/components/shadcn/checkbox';
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from '~/components/shadcn/resizable';
 import { Typography } from '~/components/typographqy';
+import { countriesUnion } from '~/server/domain/common/dto/countries';
+import { iso8601DateSchema } from '~/server/domain/common/dto/iso8601Date';
 import { resumeService } from '~/server/domain/resume';
 import { notificationSessionStorage } from '~/session/notificationSession.server';
 
 const personalInformationSchema = z.object({
-  avatar: z.string(),
-  showAvatar: z.boolean(),
-  title: z.string(),
-  firstname: z.string(),
-  lastname: z.string(),
-  birthday: z.string(),
-  nationality: z.string(),
-  address: z.object({
-    street: z.string(),
-    city: z.string(),
-    postalCode: z.string(),
-    country: z.string(),
-  }),
-  webUrl: z.string(),
-  profile: z.string(),
+  avatar: z.string().optional(),
+  showAvatar: z.boolean().optional(),
+  title: z.string().optional(),
+  firstname: z.string().optional(),
+  lastname: z.string().optional(),
+  email: z.string().email().optional(),
+  birthday: iso8601DateSchema.optional(),
+  nationality: countriesUnion.optional(),
+  street: z.string().optional(),
+  city: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: countriesUnion.optional(),
+  webUrl: z.string().optional(),
+  description: z.string().optional(),
 });
 
 const workExperienceSchema = z.object({
   company: z.string(),
-  title: z.string(),
-  city: z.string(),
-  country: z.string(),
-  from: z.string(),
-  to: z.string().optional(),
-  description: z.string(),
+  title: z.string().optional(),
+  city: z.string().optional(),
+  country: countriesUnion.optional(),
+  from: iso8601DateSchema.optional(),
+  to: iso8601DateSchema.optional(),
+  description: z.string().optional(),
 });
 
 const resumeSchema = z.object({
-  personalInformation: personalInformationSchema,
-  workExperience: z.array(workExperienceSchema),
+  personalInformation: personalInformationSchema.optional(),
+  workExperience: z.array(workExperienceSchema).optional(),
 });
 
 export const loader = async ({ request, context, params }: LoaderFunctionArgs) => {
@@ -96,11 +95,33 @@ export const loader = async ({ request, context, params }: LoaderFunctionArgs) =
   };
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const resultObject = formDataToObject(await request.formData(), personalInformationSchema);
-  logger.info({ msg: 'Form data', data: resultObject });
+export const action = async ({ request, context, params }: ActionFunctionArgs) => {
+  const paramsSchema = z.object({
+    resumeId: z.string().uuid(),
+  });
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const paramsParseResult = paramsSchema.safeParse(params);
+  if (!paramsParseResult.success) {
+    return {};
+  }
+  const resumeId = paramsParseResult.data.resumeId;
+
+  const resultObject = formDataToObject(await request.formData(), resumeSchema);
+  if (resultObject === null) {
+    return {};
+  }
+
+  const sectionOrUndefined = <T extends object>(value: T | undefined): T | undefined => {
+    return value !== undefined && Object.keys(value).length > 0 ? value : undefined;
+  };
+
+  await resumeService.saveResume({
+    userId: context.user.id,
+    resumeId,
+    personalInformation: sectionOrUndefined(resultObject.personalInformation),
+    workExperience: sectionOrUndefined(resultObject.workExperience),
+  });
+
   return {};
 };
 
@@ -120,23 +141,21 @@ export default function EditResumePage() {
             schema={resumeSchema}
             defaultValues={{
               personalInformation: {
-                avatar: '',
-                showAvatar: true,
-                title: '',
-                firstname: '',
-                lastname: '',
-                birthday: '',
-                profile: '',
-                nationality: '',
-                address: {
-                  street: '',
-                  postalCode: '',
-                  city: '',
-                  country: '',
-                },
-                webUrl: '',
+                avatar: resume.personalInformation?.avatar ?? undefined,
+                showAvatar: resume.personalInformation?.showAvatar ?? undefined,
+                title: resume.personalInformation?.title ?? undefined,
+                firstname: resume.personalInformation?.firstname ?? undefined,
+                lastname: resume.personalInformation?.lastname ?? undefined,
+                birthday: resume.personalInformation?.birthday ?? undefined,
+                description: resume.personalInformation?.description ?? undefined,
+                nationality: resume.personalInformation?.nationality ?? undefined,
+                street: resume.personalInformation?.street ?? undefined,
+                postalCode: resume.personalInformation?.postalCode ?? undefined,
+                city: resume.personalInformation?.city ?? undefined,
+                country: resume.personalInformation?.country ?? undefined,
+                webUrl: resume.personalInformation?.webUrl ?? undefined,
               },
-              workExperience: [],
+              workExperience: resume.workExperience ?? [],
             }}
             // TODO(bug): onBlur needs some fixes - triggers way to much!
             // submitMode="onBlur"
@@ -153,13 +172,10 @@ export default function EditResumePage() {
                     <Avatar className="w-[110px] h-[110px]">
                       <AvatarFallback>MP</AvatarFallback>
                     </Avatar>
-                    <div className="flex justify-center items-center gap-2">
-                      <Checkbox id="showAvatar" />
-                      <Label
-                        htmlFor="showAvatar"
-                        messageId="resume-edit.section.personal-information.field.show-avatar.label"
-                      ></Label>
-                    </div>
+                    <FormCheckboxField
+                      i18nLabel="resume-edit.section.personal-information.field.show-avatar.label"
+                      name="personalInformation.showAvatar"
+                    />
                   </div>
                   <FormInputField
                     i18nLabel="resume-edit.section.personal-information.field.title.label"
@@ -192,21 +208,21 @@ export default function EditResumePage() {
                   placeholder={user.nationality ?? undefined}
                 />
                 <FormInputField
-                  name="personalInformation.address.street"
-                  i18nLabel="resume-edit.section.personal-information.field.address.street.label"
+                  name="personalInformation.street"
+                  i18nLabel="resume-edit.section.personal-information.field.street.label"
                   placeholder={user.address.street}
                 />
                 <FormInputField
-                  name="personalInformation.address.city"
+                  name="personalInformation.city"
                   placeholder={user.address.city}
                   className="self-end"
                 />
                 <FormInputField
-                  name="personalInformation.address.postalCode"
+                  name="personalInformation.postalCode"
                   placeholder={user.address.postalCode}
                 />
                 <FormLanguageSelectField
-                  name="personalInformation.address.country"
+                  name="personalInformation.country"
                   placeholder={user.address.country}
                 />
 
@@ -218,8 +234,8 @@ export default function EditResumePage() {
                 />
 
                 <FormTextareaField
-                  name="personalInformation.profile"
-                  i18nLabel="resume-edit.section.personal-information.field.profile.label"
+                  name="personalInformation.description"
+                  i18nLabel="resume-edit.section.personal-information.field.description.label"
                   className="col-span-2"
                 />
               </div>
@@ -231,7 +247,7 @@ export default function EditResumePage() {
               <WorkExperienceSection />
             </ResumeSection>
             {/* TODO(testing): temporary - remove */}
-            <FormButton type="submit">Submit</FormButton>
+            <FormButton type="submit">common:actions.save</FormButton>
           </Form>
         </div>
       </ResizablePanel>
