@@ -19,6 +19,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     return {
       id: resume.id,
       title: resume.title,
+      // TODO: create text relative to now
       lastEdit: 'X days ago',
     };
   });

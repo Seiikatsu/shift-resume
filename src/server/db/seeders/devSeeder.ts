@@ -16,7 +16,6 @@ export class DevSeeder extends Seeder {
       phone: '+49 1234 1234 1234',
       email: 'email@example.com',
 
-      // TODO (feature): Union?
       nationality: 'DE',
 
       streetName: 'Musterstraße 123',

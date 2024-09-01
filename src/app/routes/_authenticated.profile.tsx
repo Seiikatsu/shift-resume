@@ -1,7 +1,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import type { SerializeFrom } from '@remix-run/server-runtime';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { zfd } from 'zod-form-data';
@@ -13,12 +12,14 @@ import {
   FormButton,
   FormDateField,
   FormField,
+  FormInputField,
   FormLanguageSelectField,
 } from '~/components/form';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/shadcn/avatar';
 import { Input } from '~/components/shadcn/input';
 import { useToast } from '~/components/shadcn/ui/use-toast';
 import { countriesUnion } from '~/server/domain/common/dto/countries';
+import { iso8601DateSchema } from '~/server/domain/common/dto/iso8601Date';
 import { userService } from '~/server/domain/user';
 
 const formSchema = z.object({
@@ -32,7 +33,7 @@ const formSchema = z.object({
   email: z.string().email(),
   phone: z.string().optional(),
 
-  birthday: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  birthday: iso8601DateSchema,
 
   addressStreet: z.string(),
   addressPostalCode: z.string(),
@@ -109,18 +110,10 @@ export default function ProfilePage() {
   const { toast } = useToast();
   const { t } = useTranslation();
 
-  const defaultValues = useMemo(
-    () => ({
-      ...user,
-      birthday: user.birthday,
-    }),
-    [user],
-  );
-
   return (
     <Form<FormValues>
       schema={formSchema}
-      defaultValues={defaultValues}
+      defaultValues={user}
       className="grid grid-cols-2 gap-4 w-[40rem]"
       submittedHandler={(args: SerializeFrom<typeof action>) => {
         toast({
@@ -136,14 +129,14 @@ export default function ProfilePage() {
             <AvatarFallback>MP</AvatarFallback>
           </Avatar>
         </div>
-        <FormField i18nLabel="profile.form.title.label" name="title" component={<Input />} />
+        <FormInputField i18nLabel="profile.form.title.label" name="title" />
         <div />
         <FormField
           i18nLabel="profile.form.firstname.label"
           name="firstname"
           component={<Input />}
         />
-        <FormField i18nLabel="profile.form.lastname.label" name="lastname" component={<Input />} />
+        <FormInputField i18nLabel="profile.form.lastname.label" name="lastname" />
       </div>
 
       <FormDateField i18nLabel="profile.form.birthday.label" name="birthday" />
@@ -153,24 +146,12 @@ export default function ProfilePage() {
         placeholder={t('profile.form.nationality.placeholder.no-value')}
       />
 
-      <FormField i18nLabel="profile.form.phone.label" name="phone" component={<Input />} />
-      <FormField i18nLabel="profile.form.email.label" name="email" component={<Input />} />
+      <FormInputField i18nLabel="profile.form.phone.label" name="phone" />
+      <FormInputField i18nLabel="profile.form.email.label" name="email" />
 
-      <FormField
-        i18nLabel="profile.form.address.street.label"
-        name="addressStreet"
-        component={<Input />}
-      />
-      <FormField
-        i18nLabel="profile.form.address.postal-code.label"
-        name="addressPostalCode"
-        component={<Input />}
-      />
-      <FormField
-        i18nLabel="profile.form.address.city.label"
-        name="addressCity"
-        component={<Input />}
-      />
+      <FormInputField i18nLabel="profile.form.address.street.label" name="addressStreet" />
+      <FormInputField i18nLabel="profile.form.address.postal-code.label" name="addressPostalCode" />
+      <FormInputField i18nLabel="profile.form.address.city.label" name="addressCity" />
       <FormLanguageSelectField
         i18nLabel="profile.form.address.country.label"
         name="addressCountry"
