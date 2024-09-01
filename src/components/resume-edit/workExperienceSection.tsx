@@ -2,7 +2,7 @@ import { IconChevronDown, IconTrash } from '@tabler/icons-react';
 import { Controller, useFieldArray } from 'react-hook-form';
 
 import { cn } from '~/common/utils';
-import { FormInputField, FormTextareaField } from '~/components/form';
+import { FormDateField, FormInputField, FormTextareaField } from '~/components/form';
 import {
   Collapsible,
   CollapsibleContent,
@@ -64,11 +64,11 @@ export const WorkExperienceSection = () => {
                   name={`workExperience.${index}.country`}
                   i18nLabel="resume-edit.section.work-experience.field.country.label"
                 />
-                <FormInputField
+                <FormDateField
                   name={`workExperience.${index}.from`}
                   i18nLabel="resume-edit.section.work-experience.field.from.label"
                 />
-                <FormInputField
+                <FormDateField
                   name={`workExperience.${index}.to`}
                   i18nLabel="resume-edit.section.work-experience.field.to.label"
                 />

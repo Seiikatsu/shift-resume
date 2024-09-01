@@ -108,7 +108,7 @@
             "label": "From"
           },
           "to": {
-            "label": "to"
+            "label": "To"
           },
           "description": {
             "label": "Description"

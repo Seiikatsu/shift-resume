@@ -13,6 +13,8 @@
   "aliases": {
     "components": "~/components/shadcn",
     "ui": "~/components/shadcn/ui",
-    "utils": "~/common/utils"
+    "utils": "~/common/utils",
+    "lib": "~/common/lib",
+    "hooks": "~/common/hooks"
   }
 }
