@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { countriesUnion } from '~/server/domain/common/dto/countries';
 
 export const personalInformationSection = z.object({
+  // TODO(fix): need to store information about the type?
   avatar: z.string().base64().optional(),
   showAvatar: z.boolean().optional(),
 

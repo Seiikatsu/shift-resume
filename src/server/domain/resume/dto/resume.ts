@@ -29,3 +29,5 @@ export const resumeSchema = resumeMetadataSchema.extend({
 });
 
 export type Resume = z.infer<typeof resumeSchema>;
+
+export type ResumeWithoutDates = Omit<Resume, 'createdAt' | 'updatedAt'>;

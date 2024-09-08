@@ -17,15 +17,15 @@ type ResumeSectionProps = PropsWithChildren<{
 
 export const ResumeSection: FC<ResumeSectionProps> = ({ titleMessageId, icon: Icon, children }) => {
   return (
-    <Collapsible className="w-full border border-secondary rounded-md">
-      <CollapsibleTrigger className="w-full p-4 flex items-center gap-4 group">
-        <div className="border border-transparent relative group-data-[state=open]:hover:border-secondary">
+    <Collapsible className="w-full rounded-md border border-secondary">
+      <CollapsibleTrigger className="group flex w-full items-center gap-4 p-4">
+        <div className="relative border border-transparent group-data-[state=open]:hover:border-secondary">
           <Icon size={32} />
         </div>
         <Typography className="flex-1" tag="h2" messageId={titleMessageId} />
-        <div className="transition-opacity duration-300 opacity-0 group-data-[state=open]:opacity-100">
+        <div className="opacity-0 transition-opacity duration-300 group-data-[state=open]:opacity-100">
           <IconChevronDown
-            className="stroke-neutral-400 group-data-[state=open]:rotate-180 transition-transform duration-300"
+            className="stroke-neutral-400 transition-transform duration-300 group-data-[state=open]:rotate-180"
             size={32}
           />
         </div>

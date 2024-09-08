@@ -1,0 +1,20 @@
+@tailwind components;
+
+/*
+ * TODO(refactor): this is just a workaround - we should reset the css of the preview container completely and start from scratch.
+ * Could an iframe make it easier?
+ */
+.preview {
+  * {
+    color: black;
+  }
+
+  .page {
+    @apply box-border bg-white;
+    /* A4 size */
+    width: 210mm;
+    height: 297mm;
+
+    padding: 5mm;
+  }
+}

@@ -3,7 +3,7 @@ import type { DeepPartial } from 'utility-types';
 import { getEntityManager } from '~/server/db';
 import { DbUser } from '~/server/db/entities/dbUser';
 import { countriesUnion } from '~/server/domain/common/dto/countries';
-import { User } from '~/server/domain/user/dto/user';
+import type { User } from '~/server/domain/user/dto/user';
 
 type Exact<T, U extends T> = T & {
   [K in keyof U]: K extends keyof T ? U[K] : never;
@@ -23,7 +23,7 @@ export const userService = {
       throw new Error('User not found');
     }
 
-    return new User({
+    return {
       id: dbUser.id,
       title: dbUser.title ?? null,
       picture: null,
@@ -44,7 +44,7 @@ export const userService = {
       },
 
       webUrl: null,
-    });
+    } satisfies User;
   },
 
   /**

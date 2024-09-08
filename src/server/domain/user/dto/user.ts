@@ -1,4 +1,3 @@
-import { Validated } from 'validated-extendable';
 import { z } from 'zod';
 
 import { countriesUnion } from '~/server/domain/common/dto/countries';
@@ -33,4 +32,4 @@ export const userSchema = z.object({
   webUrl: urlSchema.nullable(),
 });
 
-export class User extends Validated(userSchema) {}
+export type User = z.infer<typeof userSchema>;
